@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="d38ab1d8c2d04a13b8ee4a491947c67f" Name="Diagram1">
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Child" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.City" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Comment_city" Width="1.5" PointX="13.5" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Comment_country" Width="1.5" PointX="10.5" PointY="10.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Comment_province" Width="1.5" PointX="13.5" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Education_stage" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.History_city" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.History_province" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Information_notification" Width="1.5" PointX="10.5" PointY="16.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Payout_period" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Pocket_money_option" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Province" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.Reminder_notification" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="JakieKieszonkoweDatabaseModel.User" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_child_city" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_education_stage" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_reminder_notification_child" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_user" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_city" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_city_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_province" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_city_user_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_country_user_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_province_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_user_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_information_notification_user" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.Id_reminder_notification_user" ManuallyRouted="false" />
+        <AssociationConnector Association="JakieKieszonkoweDatabaseModel.User_pocket_money_option" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
