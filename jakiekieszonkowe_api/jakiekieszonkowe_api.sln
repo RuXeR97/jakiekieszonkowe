@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "jakiekieszonkowe_api", "jakiekieszonkowe_api\jakiekieszonkowe_api.csproj", "{91D34173-D03F-48D8-9ECA-43F9DADA4088}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{91D34173-D03F-48D8-9ECA-43F9DADA4088}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91D34173-D03F-48D8-9ECA-43F9DADA4088}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91D34173-D03F-48D8-9ECA-43F9DADA4088}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91D34173-D03F-48D8-9ECA-43F9DADA4088}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA861014-2EC8-470A-A5E2-626CACA3CAA3}
+	EndGlobalSection
+EndGlobal
