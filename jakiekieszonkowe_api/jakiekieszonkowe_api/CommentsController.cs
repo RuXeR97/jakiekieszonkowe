@@ -6,11 +6,10 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using System.Web.Http.Cors;
 
 namespace jakiekieszonkowe_api.Controllers
 {
-    [EnableCors(origins: "http://mywebclient.azurewebsites.net", headers: "*", methods: "*")]
+    
     public class CommentsController : ApiController
     {
         Comment_city[] comments_city = new Comment_city[]
