@@ -49,10 +49,5 @@ namespace jakiekieszonkowe_api.Database
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pocket_money_option> Pocket_money_option { get; set; }
-
-        public override string ToString()
-        {
-            return this.Email;
-        }
     }
 }

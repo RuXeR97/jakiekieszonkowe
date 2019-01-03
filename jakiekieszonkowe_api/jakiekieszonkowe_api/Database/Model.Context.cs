@@ -25,19 +25,19 @@ namespace jakiekieszonkowe_api.Database
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Child> Child { get; set; }
-        public virtual DbSet<City> City { get; set; }
-        public virtual DbSet<Comment_city> Comment_city { get; set; }
-        public virtual DbSet<Comment_country> Comment_country { get; set; }
-        public virtual DbSet<Comment_province> Comment_province { get; set; }
-        public virtual DbSet<Education_stage> Education_stage { get; set; }
-        public virtual DbSet<History_city> History_city { get; set; }
-        public virtual DbSet<History_province> History_province { get; set; }
-        public virtual DbSet<Information_notification> Information_notification { get; set; }
-        public virtual DbSet<Payout_period> Payout_period { get; set; }
-        public virtual DbSet<Pocket_money_option> Pocket_money_option { get; set; }
-        public virtual DbSet<Province> Province { get; set; }
-        public virtual DbSet<Reminder_notification> Reminder_notification { get; set; }
-        public virtual DbSet<User> User { get; set; }
+        public virtual DbSet<Child> Children { get; set; }
+        public virtual DbSet<City> Cities { get; set; }
+        public virtual DbSet<Comment_city> Comments_city { get; set; }
+        public virtual DbSet<Comment_country> Comments_country { get; set; }
+        public virtual DbSet<Comment_province> Comments_province { get; set; }
+        public virtual DbSet<Education_stage> Education_stages { get; set; }
+        public virtual DbSet<History_city> History_cities { get; set; }
+        public virtual DbSet<History_province> History_provinces { get; set; }
+        public virtual DbSet<Information_notification> Information_notifications { get; set; }
+        public virtual DbSet<Payout_period> Payout_periods { get; set; }
+        public virtual DbSet<Pocket_money_option> Pocket_money_options { get; set; }
+        public virtual DbSet<Province> Provinces { get; set; }
+        public virtual DbSet<Reminder_notification> Reminder_notifications { get; set; }
+        public virtual DbSet<User> Users { get; set; }
     }
 }

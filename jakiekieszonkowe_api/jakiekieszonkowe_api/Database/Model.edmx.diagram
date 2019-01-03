@@ -10,12 +10,12 @@
         <EntityTypeShape EntityType="DatabaseModel.Comment_city" Width="1.5" PointX="13.5" PointY="7.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Comment_country" Width="1.5" PointX="10.5" PointY="10.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Comment_province" Width="1.5" PointX="13.5" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="1.5" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.History_city" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="2" PointX="3" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.History_city" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.History_province" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Information_notification" Width="1.5" PointX="10.5" PointY="16.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Payout_period" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="2.125" PointX="6" PointY="4.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Province" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Reminder_notification" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
