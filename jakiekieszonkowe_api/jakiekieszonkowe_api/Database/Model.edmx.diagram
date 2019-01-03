@@ -4,33 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a94ace8098054db29dc9b7ddba73d7ec" Name="Diagram1">
-        <EntityTypeShape EntityType="DatabaseModel.Child" Width="1.5" PointX="5.25" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.City" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Comment_city" Width="1.5" PointX="13.5" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Comment_country" Width="1.5" PointX="10.5" PointY="10.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Comment_province" Width="1.5" PointX="13.5" PointY="3.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="2" PointX="3" PointY="5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.History_city" Width="1.5" PointX="0.75" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.History_province" Width="1.5" PointX="2.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Information_notification" Width="1.5" PointX="10.5" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Payout_period" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="2.125" PointX="6" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Province" Width="1.5" PointX="0.75" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Reminder_notification" Width="1.5" PointX="10.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="8.25" PointY="7.125" IsExpanded="true" />
+      <Diagram DiagramId="ac1869b6f6634e44ab64486bf1aeda87" Name="Diagram1">
+        <EntityTypeShape EntityType="DatabaseModel.Child" Width="1.5" PointX="5.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.City" Width="1.5" PointX="3" PointY="7.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Comment" Width="1.5" PointX="10.5" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="1.5" PointX="3" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.History" Width="1.5" PointX="8.25" PointY="7" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Information_notification" Width="2.125" PointX="7.75" PointY="3.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Likes" Width="1.5" PointX="12.75" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Payout_period" Width="1.5" PointX="9.75" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="2.625" PointX="1.875" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Province" Width="1.5" PointX="0.75" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Reminder_notification" Width="1.875" PointX="7.5" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="5.25" PointY="1.625" IsExpanded="true" />
         <AssociationConnector Association="DatabaseModel.Id_child_city" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_education_stage" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_reminder_notification_child" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_user" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_city" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_city_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.Id_city_history" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_province" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_city_user_comment" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.Id_country_user_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.Id_comment_like" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_province_comment" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.Id_user_comment" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.Id_province_history" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_information_notification_user" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.Id_user_like" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_reminder_notification_user" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.User_pocket_money_option" ManuallyRouted="false" />
       </Diagram>

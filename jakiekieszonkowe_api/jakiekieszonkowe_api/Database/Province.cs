@@ -18,7 +18,8 @@ namespace jakiekieszonkowe_api.Database
         public Province()
         {
             this.City = new HashSet<City>();
-            this.Comment_province = new HashSet<Comment_province>();
+            this.Comment = new HashSet<Comment>();
+            this.History = new HashSet<History>();
         }
     
         public int Id_province { get; set; }
@@ -27,6 +28,8 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<City> City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment_province> Comment_province { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<History> History { get; set; }
     }
 }

@@ -18,10 +18,9 @@ namespace jakiekieszonkowe_api.Database
         public User()
         {
             this.Child = new HashSet<Child>();
-            this.Comment_city = new HashSet<Comment_city>();
-            this.Comment_country = new HashSet<Comment_country>();
-            this.Comment_province = new HashSet<Comment_province>();
+            this.Comment = new HashSet<Comment>();
             this.Information_notification = new HashSet<Information_notification>();
+            this.Likes = new HashSet<Likes>();
             this.Reminder_notification = new HashSet<Reminder_notification>();
             this.Pocket_money_option = new HashSet<Pocket_money_option>();
         }
@@ -29,22 +28,22 @@ namespace jakiekieszonkowe_api.Database
         public int Id_user { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
-        public Nullable<System.Guid> UserGuid { get; set; }
+        public System.Guid UserGuid { get; set; }
         public int Id_city { get; set; }
-        public System.DateTime Last_login_date { get; set; }
+        public Nullable<System.DateTime> Last_login_date { get; set; }
         public System.DateTime Account_registration_date { get; set; }
+        public string Token { get; set; }
+        public bool IsAdmin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Child> Child { get; set; }
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment_city> Comment_city { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment_country> Comment_country { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment_province> Comment_province { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Information_notification> Information_notification { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Likes> Likes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

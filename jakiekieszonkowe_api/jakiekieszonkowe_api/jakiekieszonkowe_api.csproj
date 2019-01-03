@@ -79,32 +79,30 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\CommentsController.cs" />
+    <Compile Include="Controllers\DictionariesController.cs" />
+    <Compile Include="Controllers\MapStatsController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Database\Child.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\City.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Comment_city.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Comment_country.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\Comment_province.cs">
+    <Compile Include="Database\Comment.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Education_stage.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\History_city.cs">
-      <DependentUpon>Model.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Database\History_province.cs">
+    <Compile Include="Database\History.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Information_notification.cs">
+      <DependentUpon>Model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Database\Likes.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Model.Context.cs">
@@ -137,7 +135,10 @@
     <Compile Include="Database\User.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Other\CustomHeaderHandler.cs" />
+    <Compile Include="Other\Security.cs" />
+    <Compile Include="Other\StringCipher.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -154,19 +155,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Database.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\Database.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Database\Database_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>Database.mdf</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Database\Model.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>Model.Context.cs</LastGenOutput>
       <DependentUpon>Model.edmx</DependentUpon>
+      <LastGenOutput>Model.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Database\Model.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -174,7 +168,7 @@
       <LastGenOutput>Model.cs</LastGenOutput>
     </Content>
     <Content Include="Database_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <DependentUpon>Database.mdf</DependentUpon>
     </Content>
   </ItemGroup>

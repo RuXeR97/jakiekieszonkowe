@@ -25,33 +25,13 @@
           <Property Name="Name" Type="nchar" MaxLength="50" />
           <Property Name="Id_province" Type="int" />
         </EntityType>
-        <EntityType Name="Comment_city">
+        <EntityType Name="Comment">
           <Key>
-            <PropertyRef Name="Id_comment_city" />
+            <PropertyRef Name="Id_comment" />
           </Key>
-          <Property Name="Id_comment_city" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_city" Type="int" Nullable="false" />
-          <Property Name="Id_user" Type="int" Nullable="false" />
-          <Property Name="Content" Type="nchar" MaxLength="250" Nullable="false" />
-          <Property Name="Likes_amount" Type="int" Nullable="false" />
-          <Property Name="Creation_date" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Comment_country">
-          <Key>
-            <PropertyRef Name="Id_comment_country" />
-          </Key>
-          <Property Name="Id_comment_country" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_user" Type="int" Nullable="false" />
-          <Property Name="Content" Type="nchar" MaxLength="250" Nullable="false" />
-          <Property Name="Likes_amount" Type="int" Nullable="false" />
-          <Property Name="Creation_date" Type="datetime" Nullable="false" />
-        </EntityType>
-        <EntityType Name="Comment_province">
-          <Key>
-            <PropertyRef Name="Id_comment_province" />
-          </Key>
-          <Property Name="Id_comment_province" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Id_province" Type="int" Nullable="false" />
+          <Property Name="Id_comment" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_city" Type="int" />
+          <Property Name="Id_province" Type="int" />
           <Property Name="Id_user" Type="int" Nullable="false" />
           <Property Name="Content" Type="nchar" MaxLength="250" Nullable="false" />
           <Property Name="Likes_amount" Type="int" Nullable="false" />
@@ -64,22 +44,13 @@
           <Property Name="Id_education_stage" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
         </EntityType>
-        <EntityType Name="History_city">
+        <EntityType Name="History">
           <Key>
             <PropertyRef Name="Id_history_city" />
           </Key>
           <Property Name="Id_history_city" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Average" Type="float" Nullable="false" />
-          <Property Name="Median" Type="float" Nullable="false" />
-          <Property Name="Date" Type="date" Nullable="false" />
-          <Property Name="Entries_amount" Type="int" Nullable="false" />
-          <Property Name="Standard_deviation" Type="float" Nullable="false" />
-        </EntityType>
-        <EntityType Name="History_province">
-          <Key>
-            <PropertyRef Name="Id_history_province" />
-          </Key>
-          <Property Name="Id_history_province" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_city" Type="int" Nullable="false" />
+          <Property Name="Id_province" Type="int" Nullable="false" />
           <Property Name="Average" Type="float" Nullable="false" />
           <Property Name="Median" Type="float" Nullable="false" />
           <Property Name="Date" Type="date" Nullable="false" />
@@ -92,6 +63,15 @@
           </Key>
           <Property Name="Id_information_notification" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Id_user" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="Id_like" />
+          </Key>
+          <Property Name="Id_like" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id_user" Type="int" Nullable="false" />
+          <Property Name="Id_comment" Type="int" Nullable="false" />
+          <Property Name="Amount_of_likes" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Payout_period">
           <Key>
@@ -131,10 +111,12 @@
           <Property Name="Id_user" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="nchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nchar" MaxLength="50" Nullable="false" />
-          <Property Name="UserGuid" Type="uniqueidentifier" />
+          <Property Name="UserGuid" Type="uniqueidentifier" Nullable="false" />
           <Property Name="Id_city" Type="int" Nullable="false" />
-          <Property Name="Last_login_date" Type="datetime" Nullable="false" />
+          <Property Name="Last_login_date" Type="datetime" />
           <Property Name="Account_registration_date" Type="datetime" Nullable="false" />
+          <Property Name="Token" Type="nchar" MaxLength="40" />
+          <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="User_pocket_money_option">
           <Key>
@@ -169,38 +151,50 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_city_comment">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="Comment_city" Type="Self.Comment_city" Multiplicity="*" />
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id_city" />
             </Principal>
-            <Dependent Role="Comment_city">
+            <Dependent Role="Comment">
+              <PropertyRef Name="Id_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_city_history">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id_city" />
+            </Principal>
+            <Dependent Role="History">
               <PropertyRef Name="Id_city" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_city_user_comment">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_city" Type="Self.Comment_city" Multiplicity="*" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id_user" />
             </Principal>
-            <Dependent Role="Comment_city">
+            <Dependent Role="Comment">
               <PropertyRef Name="Id_user" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Id_country_user_comment">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_country" Type="Self.Comment_country" Multiplicity="*" />
+        <Association Name="Id_comment_like">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id_user" />
+            <Principal Role="Comment">
+              <PropertyRef Name="Id_comment" />
             </Principal>
-            <Dependent Role="Comment_country">
-              <PropertyRef Name="Id_user" />
+            <Dependent Role="Likes">
+              <PropertyRef Name="Id_comment" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -253,13 +247,25 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_province_comment">
-          <End Role="Province" Type="Self.Province" Multiplicity="1" />
-          <End Role="Comment_province" Type="Self.Comment_province" Multiplicity="*" />
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Province">
               <PropertyRef Name="Id_province" />
             </Principal>
-            <Dependent Role="Comment_province">
+            <Dependent Role="Comment">
+              <PropertyRef Name="Id_province" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_province_history">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Province">
+              <PropertyRef Name="Id_province" />
+            </Principal>
+            <Dependent Role="History">
               <PropertyRef Name="Id_province" />
             </Dependent>
           </ReferentialConstraint>
@@ -300,14 +306,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Id_user_comment">
+        <Association Name="Id_user_like">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_province" Type="Self.Comment_province" Multiplicity="*" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id_user" />
             </Principal>
-            <Dependent Role="Comment_province">
+            <Dependent Role="Likes">
               <PropertyRef Name="Id_user" />
             </Dependent>
           </ReferentialConstraint>
@@ -327,13 +333,11 @@
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Comment_city" EntityType="Self.Comment_city" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Comment_country" EntityType="Self.Comment_country" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Comment_province" EntityType="Self.Comment_province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Education_stage" EntityType="Self.Education_stage" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="History_city" EntityType="Self.History_city" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="History_province" EntityType="Self.History_province" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="History" EntityType="Self.History" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Information_notification" EntityType="Self.Information_notification" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Likes" EntityType="Self.Likes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Payout_period" EntityType="Self.Payout_period" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Pocket_money_option" EntityType="Self.Pocket_money_option" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
@@ -350,15 +354,19 @@
           </AssociationSet>
           <AssociationSet Name="Id_city_comment" Association="Self.Id_city_comment">
             <End Role="City" EntitySet="City" />
-            <End Role="Comment_city" EntitySet="Comment_city" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="Id_city_history" Association="Self.Id_city_history">
+            <End Role="City" EntitySet="City" />
+            <End Role="History" EntitySet="History" />
           </AssociationSet>
           <AssociationSet Name="Id_city_user_comment" Association="Self.Id_city_user_comment">
             <End Role="User" EntitySet="User" />
-            <End Role="Comment_city" EntitySet="Comment_city" />
+            <End Role="Comment" EntitySet="Comment" />
           </AssociationSet>
-          <AssociationSet Name="Id_country_user_comment" Association="Self.Id_country_user_comment">
-            <End Role="User" EntitySet="User" />
-            <End Role="Comment_country" EntitySet="Comment_country" />
+          <AssociationSet Name="Id_comment_like" Association="Self.Id_comment_like">
+            <End Role="Comment" EntitySet="Comment" />
+            <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
           <AssociationSet Name="Id_education_stage" Association="Self.Id_education_stage">
             <End Role="Education_stage" EntitySet="Education_stage" />
@@ -378,7 +386,11 @@
           </AssociationSet>
           <AssociationSet Name="Id_province_comment" Association="Self.Id_province_comment">
             <End Role="Province" EntitySet="Province" />
-            <End Role="Comment_province" EntitySet="Comment_province" />
+            <End Role="Comment" EntitySet="Comment" />
+          </AssociationSet>
+          <AssociationSet Name="Id_province_history" Association="Self.Id_province_history">
+            <End Role="Province" EntitySet="Province" />
+            <End Role="History" EntitySet="History" />
           </AssociationSet>
           <AssociationSet Name="Id_reminder_notification_child" Association="Self.Id_reminder_notification_child">
             <End Role="Child" EntitySet="Child" />
@@ -392,9 +404,9 @@
             <End Role="User" EntitySet="User" />
             <End Role="Child" EntitySet="Child" />
           </AssociationSet>
-          <AssociationSet Name="Id_user_comment" Association="Self.Id_user_comment">
+          <AssociationSet Name="Id_user_like" Association="Self.Id_user_like">
             <End Role="User" EntitySet="User" />
-            <End Role="Comment_province" EntitySet="Comment_province" />
+            <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
           <AssociationSet Name="Id_user_pocket_money_option" Association="Self.Id_user_pocket_money_option">
             <End Role="User" EntitySet="User" />
@@ -430,45 +442,25 @@
           <Property Name="Id_province" Type="Int32" />
           <NavigationProperty Name="Child" Relationship="Self.Id_child_city" FromRole="City" ToRole="Child" />
           <NavigationProperty Name="User" Relationship="Self.Id_city" FromRole="City" ToRole="User" />
-          <NavigationProperty Name="Comment_city" Relationship="Self.Id_city_comment" FromRole="City" ToRole="Comment_city" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_city_comment" FromRole="City" ToRole="Comment" />
+          <NavigationProperty Name="History" Relationship="Self.Id_city_history" FromRole="City" ToRole="History" />
           <NavigationProperty Name="Province" Relationship="Self.Id_province" FromRole="City" ToRole="Province" />
         </EntityType>
-        <EntityType Name="Comment_city">
+        <EntityType Name="Comment">
           <Key>
-            <PropertyRef Name="Id_comment_city" />
+            <PropertyRef Name="Id_comment" />
           </Key>
-          <Property Name="Id_comment_city" Type="Int32" Nullable="false" />
-          <Property Name="Id_city" Type="Int32" Nullable="false" />
+          <Property Name="Id_comment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_city" Type="Int32" />
+          <Property Name="Id_province" Type="Int32" />
           <Property Name="Id_user" Type="Int32" Nullable="false" />
           <Property Name="Content" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Likes_amount" Type="Int32" Nullable="false" />
           <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="City" Relationship="Self.Id_city_comment" FromRole="Comment_city" ToRole="City" />
-          <NavigationProperty Name="User" Relationship="Self.Id_city_user_comment" FromRole="Comment_city" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Comment_country">
-          <Key>
-            <PropertyRef Name="Id_comment_country" />
-          </Key>
-          <Property Name="Id_comment_country" Type="Int32" Nullable="false" />
-          <Property Name="Id_user" Type="Int32" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Likes_amount" Type="Int32" Nullable="false" />
-          <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="User" Relationship="Self.Id_country_user_comment" FromRole="Comment_country" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Comment_province">
-          <Key>
-            <PropertyRef Name="Id_comment_province" />
-          </Key>
-          <Property Name="Id_comment_province" Type="Int32" Nullable="false" />
-          <Property Name="Id_province" Type="Int32" Nullable="false" />
-          <Property Name="Id_user" Type="Int32" Nullable="false" />
-          <Property Name="Content" Type="String" MaxLength="250" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="Likes_amount" Type="Int32" Nullable="false" />
-          <Property Name="Creation_date" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Province" Relationship="Self.Id_province_comment" FromRole="Comment_province" ToRole="Province" />
-          <NavigationProperty Name="User" Relationship="Self.Id_user_comment" FromRole="Comment_province" ToRole="User" />
+          <NavigationProperty Name="City" Relationship="Self.Id_city_comment" FromRole="Comment" ToRole="City" />
+          <NavigationProperty Name="User" Relationship="Self.Id_city_user_comment" FromRole="Comment" ToRole="User" />
+          <NavigationProperty Name="Likes" Relationship="Self.Id_comment_like" FromRole="Comment" ToRole="Likes" />
+          <NavigationProperty Name="Province" Relationship="Self.Id_province_comment" FromRole="Comment" ToRole="Province" />
         </EntityType>
         <EntityType Name="Education_stage">
           <Key>
@@ -478,27 +470,20 @@
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Child" Relationship="Self.Id_education_stage" FromRole="Education_stage" ToRole="Child" />
         </EntityType>
-        <EntityType Name="History_city">
+        <EntityType Name="History">
           <Key>
             <PropertyRef Name="Id_history_city" />
           </Key>
-          <Property Name="Id_history_city" Type="Int32" Nullable="false" />
+          <Property Name="Id_history_city" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_city" Type="Int32" Nullable="false" />
+          <Property Name="Id_province" Type="Int32" Nullable="false" />
           <Property Name="Average" Type="Double" Nullable="false" />
           <Property Name="Median" Type="Double" Nullable="false" />
           <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="Entries_amount" Type="Int32" Nullable="false" />
           <Property Name="Standard_deviation" Type="Double" Nullable="false" />
-        </EntityType>
-        <EntityType Name="History_province">
-          <Key>
-            <PropertyRef Name="Id_history_province" />
-          </Key>
-          <Property Name="Id_history_province" Type="Int32" Nullable="false" />
-          <Property Name="Average" Type="Double" Nullable="false" />
-          <Property Name="Median" Type="Double" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-          <Property Name="Entries_amount" Type="Int32" Nullable="false" />
-          <Property Name="Standard_deviation" Type="Double" Nullable="false" />
+          <NavigationProperty Name="City" Relationship="Self.Id_city_history" FromRole="History" ToRole="City" />
+          <NavigationProperty Name="Province" Relationship="Self.Id_province_history" FromRole="History" ToRole="Province" />
         </EntityType>
         <EntityType Name="Information_notification">
           <Key>
@@ -507,6 +492,17 @@
           <Property Name="Id_information_notification" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Id_user" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.Id_information_notification_user" FromRole="Information_notification" ToRole="User" />
+        </EntityType>
+        <EntityType Name="Likes">
+          <Key>
+            <PropertyRef Name="Id_like" />
+          </Key>
+          <Property Name="Id_like" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_user" Type="Int32" Nullable="false" />
+          <Property Name="Id_comment" Type="Int32" Nullable="false" />
+          <Property Name="Amount_of_likes" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_comment_like" FromRole="Likes" ToRole="Comment" />
+          <NavigationProperty Name="User" Relationship="Self.Id_user_like" FromRole="Likes" ToRole="User" />
         </EntityType>
         <EntityType Name="Payout_period">
           <Key>
@@ -531,7 +527,8 @@
           <Property Name="Id_province" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <NavigationProperty Name="City" Relationship="Self.Id_province" FromRole="Province" ToRole="City" />
-          <NavigationProperty Name="Comment_province" Relationship="Self.Id_province_comment" FromRole="Province" ToRole="Comment_province" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_province_comment" FromRole="Province" ToRole="Comment" />
+          <NavigationProperty Name="History" Relationship="Self.Id_province_history" FromRole="Province" ToRole="History" />
         </EntityType>
         <EntityType Name="Reminder_notification">
           <Key>
@@ -551,18 +548,19 @@
           <Property Name="Id_user" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <Property Name="UserGuid" Type="Guid" />
+          <Property Name="UserGuid" Type="Guid" Nullable="false" />
           <Property Name="Id_city" Type="Int32" Nullable="false" />
-          <Property Name="Last_login_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Last_login_date" Type="DateTime" Precision="3" />
           <Property Name="Account_registration_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Token" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Child" Relationship="Self.Id_user" FromRole="User" ToRole="Child" />
           <NavigationProperty Name="City" Relationship="Self.Id_city" FromRole="User" ToRole="City" />
-          <NavigationProperty Name="Comment_city" Relationship="Self.Id_city_user_comment" FromRole="User" ToRole="Comment_city" />
-          <NavigationProperty Name="Comment_country" Relationship="Self.Id_country_user_comment" FromRole="User" ToRole="Comment_country" />
-          <NavigationProperty Name="Comment_province" Relationship="Self.Id_user_comment" FromRole="User" ToRole="Comment_province" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_city_user_comment" FromRole="User" ToRole="Comment" />
           <NavigationProperty Name="Information_notification" Relationship="Self.Id_information_notification_user" FromRole="User" ToRole="Information_notification" />
+          <NavigationProperty Name="Likes" Relationship="Self.Id_user_like" FromRole="User" ToRole="Likes" />
           <NavigationProperty Name="Reminder_notification" Relationship="Self.Id_reminder_notification_user" FromRole="User" ToRole="Reminder_notification" />
           <NavigationProperty Name="Pocket_money_option" Relationship="Self.User_pocket_money_option" FromRole="User" ToRole="Pocket_money_option" />
+          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="Id_child_city">
           <End Role="City" Type="Self.City" Multiplicity="1" />
@@ -577,7 +575,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_education_stage">
-          <End Role="Education_stage" Type="DatabaseModel.Education_stage" Multiplicity="1" />
+          <End Role="Education_stage" Type="Self.Education_stage" Multiplicity="1" />
           <End Role="Child" Type="Self.Child" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Education_stage">
@@ -625,13 +623,25 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_city_comment">
-          <End Role="City" Type="Self.City" Multiplicity="1" />
-          <End Role="Comment_city" Type="Self.Comment_city" Multiplicity="*" />
+          <End Role="City" Type="Self.City" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="City">
               <PropertyRef Name="Id_city" />
             </Principal>
-            <Dependent Role="Comment_city">
+            <Dependent Role="Comment">
+              <PropertyRef Name="Id_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_city_history">
+          <End Role="City" Type="Self.City" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="City">
+              <PropertyRef Name="Id_city" />
+            </Principal>
+            <Dependent Role="History">
               <PropertyRef Name="Id_city" />
             </Dependent>
           </ReferentialConstraint>
@@ -650,49 +660,49 @@
         </Association>
         <Association Name="Id_city_user_comment">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_city" Type="Self.Comment_city" Multiplicity="*" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id_user" />
             </Principal>
-            <Dependent Role="Comment_city">
+            <Dependent Role="Comment">
               <PropertyRef Name="Id_user" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Id_country_user_comment">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_country" Type="Self.Comment_country" Multiplicity="*" />
+        <Association Name="Id_comment_like">
+          <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id_user" />
+            <Principal Role="Comment">
+              <PropertyRef Name="Id_comment" />
             </Principal>
-            <Dependent Role="Comment_country">
-              <PropertyRef Name="Id_user" />
+            <Dependent Role="Likes">
+              <PropertyRef Name="Id_comment" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_province_comment">
-          <End Role="Province" Type="Self.Province" Multiplicity="1" />
-          <End Role="Comment_province" Type="Self.Comment_province" Multiplicity="*" />
+          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Province">
               <PropertyRef Name="Id_province" />
             </Principal>
-            <Dependent Role="Comment_province">
+            <Dependent Role="Comment">
               <PropertyRef Name="Id_province" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Id_user_comment">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Comment_province" Type="Self.Comment_province" Multiplicity="*" />
+        <Association Name="Id_province_history">
+          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="History" Type="Self.History" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id_user" />
+            <Principal Role="Province">
+              <PropertyRef Name="Id_province" />
             </Principal>
-            <Dependent Role="Comment_province">
-              <PropertyRef Name="Id_user" />
+            <Dependent Role="History">
+              <PropertyRef Name="Id_province" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -704,6 +714,18 @@
               <PropertyRef Name="Id_user" />
             </Principal>
             <Dependent Role="Information_notification">
+              <PropertyRef Name="Id_user" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_user_like">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="Id_user" />
+            </Principal>
+            <Dependent Role="Likes">
               <PropertyRef Name="Id_user" />
             </Dependent>
           </ReferentialConstraint>
@@ -724,16 +746,14 @@
           <End Role="Pocket_money_option" Type="Self.Pocket_money_option" Multiplicity="*" />
           <End Role="User" Type="Self.User" Multiplicity="*" />
         </Association>
-        <EntityContainer Name="DatabaseEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="JakieKieszonkoweEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Children" EntityType="Self.Child" />
           <EntitySet Name="Cities" EntityType="Self.City" />
-          <EntitySet Name="Comments_city" EntityType="Self.Comment_city" />
-          <EntitySet Name="Comments_country" EntityType="Self.Comment_country" />
-          <EntitySet Name="Comments_province" EntityType="Self.Comment_province" />
-          <EntitySet Name="Education_stages" EntityType="DatabaseModel.Education_stage" />
-          <EntitySet Name="History_cities" EntityType="Self.History_city" />
-          <EntitySet Name="History_provinces" EntityType="Self.History_province" />
+          <EntitySet Name="Comments" EntityType="Self.Comment" />
+          <EntitySet Name="Education_stage" EntityType="Self.Education_stage" />
+          <EntitySet Name="History" EntityType="Self.History" />
           <EntitySet Name="Information_notifications" EntityType="Self.Information_notification" />
+          <EntitySet Name="Likes" EntityType="Self.Likes" />
           <EntitySet Name="Payout_periods" EntityType="Self.Payout_period" />
           <EntitySet Name="Pocket_money_options" EntityType="Self.Pocket_money_option" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
@@ -744,7 +764,7 @@
             <End Role="Child" EntitySet="Children" />
           </AssociationSet>
           <AssociationSet Name="Id_education_stage" Association="Self.Id_education_stage">
-            <End Role="Education_stage" EntitySet="Education_stages" />
+            <End Role="Education_stage" EntitySet="Education_stage" />
             <End Role="Child" EntitySet="Children" />
           </AssociationSet>
           <AssociationSet Name="Id_reminder_notification_child" Association="Self.Id_reminder_notification_child">
@@ -761,7 +781,11 @@
           </AssociationSet>
           <AssociationSet Name="Id_city_comment" Association="Self.Id_city_comment">
             <End Role="City" EntitySet="Cities" />
-            <End Role="Comment_city" EntitySet="Comments_city" />
+            <End Role="Comment" EntitySet="Comments" />
+          </AssociationSet>
+          <AssociationSet Name="Id_city_history" Association="Self.Id_city_history">
+            <End Role="City" EntitySet="Cities" />
+            <End Role="History" EntitySet="History" />
           </AssociationSet>
           <AssociationSet Name="Id_province" Association="Self.Id_province">
             <End Role="Province" EntitySet="Provinces" />
@@ -769,23 +793,27 @@
           </AssociationSet>
           <AssociationSet Name="Id_city_user_comment" Association="Self.Id_city_user_comment">
             <End Role="User" EntitySet="Users" />
-            <End Role="Comment_city" EntitySet="Comments_city" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="Id_country_user_comment" Association="Self.Id_country_user_comment">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Comment_country" EntitySet="Comments_country" />
+          <AssociationSet Name="Id_comment_like" Association="Self.Id_comment_like">
+            <End Role="Comment" EntitySet="Comments" />
+            <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
           <AssociationSet Name="Id_province_comment" Association="Self.Id_province_comment">
             <End Role="Province" EntitySet="Provinces" />
-            <End Role="Comment_province" EntitySet="Comments_province" />
+            <End Role="Comment" EntitySet="Comments" />
           </AssociationSet>
-          <AssociationSet Name="Id_user_comment" Association="Self.Id_user_comment">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Comment_province" EntitySet="Comments_province" />
+          <AssociationSet Name="Id_province_history" Association="Self.Id_province_history">
+            <End Role="Province" EntitySet="Provinces" />
+            <End Role="History" EntitySet="History" />
           </AssociationSet>
           <AssociationSet Name="Id_information_notification_user" Association="Self.Id_information_notification_user">
             <End Role="User" EntitySet="Users" />
             <End Role="Information_notification" EntitySet="Information_notifications" />
+          </AssociationSet>
+          <AssociationSet Name="Id_user_like" Association="Self.Id_user_like">
+            <End Role="User" EntitySet="Users" />
+            <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
           <AssociationSet Name="Id_reminder_notification_user" Association="Self.Id_reminder_notification_user">
             <End Role="User" EntitySet="Users" />
@@ -801,7 +829,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="DatabaseEntities">
+        <EntityContainerMapping StorageEntityContainer="DatabaseModelStoreContainer" CdmEntityContainer="JakieKieszonkoweEntities">
           <EntitySetMapping Name="Children">
             <EntityTypeMapping TypeName="DatabaseModel.Child">
               <MappingFragment StoreEntitySet="Child">
@@ -824,33 +852,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Comments_city">
-            <EntityTypeMapping TypeName="DatabaseModel.Comment_city">
-              <MappingFragment StoreEntitySet="Comment_city">
-                <ScalarProperty Name="Id_comment_city" ColumnName="Id_comment_city" />
+          <EntitySetMapping Name="Comments">
+            <EntityTypeMapping TypeName="DatabaseModel.Comment">
+              <MappingFragment StoreEntitySet="Comment">
+                <ScalarProperty Name="Id_comment" ColumnName="Id_comment" />
                 <ScalarProperty Name="Id_city" ColumnName="Id_city" />
-                <ScalarProperty Name="Id_user" ColumnName="Id_user" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Likes_amount" ColumnName="Likes_amount" />
-                <ScalarProperty Name="Creation_date" ColumnName="Creation_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comments_country">
-            <EntityTypeMapping TypeName="DatabaseModel.Comment_country">
-              <MappingFragment StoreEntitySet="Comment_country">
-                <ScalarProperty Name="Id_comment_country" ColumnName="Id_comment_country" />
-                <ScalarProperty Name="Id_user" ColumnName="Id_user" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="Likes_amount" ColumnName="Likes_amount" />
-                <ScalarProperty Name="Creation_date" ColumnName="Creation_date" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Comments_province">
-            <EntityTypeMapping TypeName="DatabaseModel.Comment_province">
-              <MappingFragment StoreEntitySet="Comment_province">
-                <ScalarProperty Name="Id_comment_province" ColumnName="Id_comment_province" />
                 <ScalarProperty Name="Id_province" ColumnName="Id_province" />
                 <ScalarProperty Name="Id_user" ColumnName="Id_user" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
@@ -859,7 +865,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Education_stages">
+          <EntitySetMapping Name="Education_stage">
             <EntityTypeMapping TypeName="DatabaseModel.Education_stage">
               <MappingFragment StoreEntitySet="Education_stage">
                 <ScalarProperty Name="Id_education_stage" ColumnName="Id_education_stage" />
@@ -867,22 +873,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="History_cities">
-            <EntityTypeMapping TypeName="DatabaseModel.History_city">
-              <MappingFragment StoreEntitySet="History_city">
+          <EntitySetMapping Name="History">
+            <EntityTypeMapping TypeName="DatabaseModel.History">
+              <MappingFragment StoreEntitySet="History">
                 <ScalarProperty Name="Id_history_city" ColumnName="Id_history_city" />
-                <ScalarProperty Name="Average" ColumnName="Average" />
-                <ScalarProperty Name="Median" ColumnName="Median" />
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="Entries_amount" ColumnName="Entries_amount" />
-                <ScalarProperty Name="Standard_deviation" ColumnName="Standard_deviation" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="History_provinces">
-            <EntityTypeMapping TypeName="DatabaseModel.History_province">
-              <MappingFragment StoreEntitySet="History_province">
-                <ScalarProperty Name="Id_history_province" ColumnName="Id_history_province" />
+                <ScalarProperty Name="Id_city" ColumnName="Id_city" />
+                <ScalarProperty Name="Id_province" ColumnName="Id_province" />
                 <ScalarProperty Name="Average" ColumnName="Average" />
                 <ScalarProperty Name="Median" ColumnName="Median" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
@@ -896,6 +892,16 @@
               <MappingFragment StoreEntitySet="Information_notification">
                 <ScalarProperty Name="Id_information_notification" ColumnName="Id_information_notification" />
                 <ScalarProperty Name="Id_user" ColumnName="Id_user" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Likes">
+            <EntityTypeMapping TypeName="DatabaseModel.Likes">
+              <MappingFragment StoreEntitySet="Likes">
+                <ScalarProperty Name="Id_like" ColumnName="Id_like" />
+                <ScalarProperty Name="Id_user" ColumnName="Id_user" />
+                <ScalarProperty Name="Id_comment" ColumnName="Id_comment" />
+                <ScalarProperty Name="Amount_of_likes" ColumnName="Amount_of_likes" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -937,6 +943,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="DatabaseModel.User">
               <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="Id_user" ColumnName="Id_user" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Password" ColumnName="Password" />
@@ -944,6 +951,7 @@
                 <ScalarProperty Name="Id_city" ColumnName="Id_city" />
                 <ScalarProperty Name="Last_login_date" ColumnName="Last_login_date" />
                 <ScalarProperty Name="Account_registration_date" ColumnName="Account_registration_date" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
