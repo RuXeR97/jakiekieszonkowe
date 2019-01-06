@@ -55,6 +55,8 @@ namespace jakiekieszonkowe_api.Controllers
             {
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
+                    if (db.Users.Any(i => i.Email == email))
+                        throw new Exception("Podana nazwa jest zajęta! Spróbuj innej.");
                     db.Users.Add(comment);
                     db.SaveChanges();
                 }
