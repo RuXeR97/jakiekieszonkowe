@@ -64,7 +64,7 @@ namespace jakiekieszonkowe_api.Controllers
                     {
                         id = item.Id_comment,
                         author = item.User.Email,
-                        content = item.Content,
+                        content = item.Content.Trim(),
                         upvotes = item.Likes_amount,
                         liked = isLiked
                     });

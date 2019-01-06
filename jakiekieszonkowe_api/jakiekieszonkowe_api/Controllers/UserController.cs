@@ -97,7 +97,7 @@ namespace jakiekieszonkowe_api.Controllers
                             userChildrenList.Add(new
                             {
                                 id = child.Id_child,
-                                name = child.First_name,
+                                name = child.First_name.Trim(),
                                 age = DateTime.Now.ToLocalTime().ToLocalTime().Year - child.Date_of_birth.Value.Year,
                                 schoolTypeId = child.Id_education_stage,
                                 quota = child.Current_amount_of_money,
@@ -134,13 +134,13 @@ namespace jakiekieszonkowe_api.Controllers
                             token = generatedToken,
                             userData = new                                     
                             {
-                                email = user.Email,
+                                email = user.Email.Trim(),
                                 accountActivationDate = user.Account_registration_date.ToString("yyyy-MM-dd"),
                                 accountLastLogInDate =  user.Last_login_date,                       //"YYY -MM-DD",
                                 provinceId = user.City.Id_province,
                                 cityId = user.Id_city,
-                                province = user.City.Province.Name,
-                                city = user.City.Name
+                                province = user.City.Province.Name.Trim(),
+                                city = user.City.Name.Trim(),
                             },
                             userKids = userChildrenList,
                             userNotifications = reminderNotificationsList,      
@@ -187,7 +187,6 @@ namespace jakiekieszonkowe_api.Controllers
             {
                 errorMessage = ex.Message;
                 wasSuccess = false;
-                
             }
 
             var finalResult = new
@@ -247,7 +246,7 @@ namespace jakiekieszonkowe_api.Controllers
                         userChildrenList.Add(new
                         {
                             id = singleChild.Id_child,
-                            name = singleChild.First_name,
+                            name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
@@ -348,7 +347,7 @@ namespace jakiekieszonkowe_api.Controllers
                         userChildrenList.Add(new
                         {
                             id = singleChild.Id_child,
-                            name = singleChild.First_name,
+                            name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
@@ -426,7 +425,7 @@ namespace jakiekieszonkowe_api.Controllers
                         userChildrenList.Add(new
                         {
                             id = singleChild.Id_child,
-                            name = singleChild.First_name,
+                            name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
@@ -539,13 +538,13 @@ namespace jakiekieszonkowe_api.Controllers
                     {
                         success = true,
                         message = String.Empty,
-                        email = user.Email,
+                        email = user.Email.Trim(),
                         accountActivationDate = user.Account_registration_date,
                         accountLastLogInDate = user.Last_login_date,
                         provinceId = user.City.Id_province,
                         cityId = user.Id_city,
-                        province = user.City.Province.Name,
-                        city = user.City.Name
+                        province = user.City.Province.Name.Trim(),
+                        city = user.City.Name.Trim(),
                     };
 
                     return finalResult;
@@ -702,6 +701,63 @@ namespace jakiekieszonkowe_api.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("ChangeMetaNotification")]
+        public object ChangeMetaNotification(bool isSubscribed, string token)
+        {
+            return ChangeMetaNotificationDetailed(isSubscribed, token);
+        }
+        private object ChangeMetaNotificationDetailed(bool isSubscribed, string token)
+        {
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    Information_notification informationNotification = db.Information_notifications.FirstOrDefault(i => i.Id_user == userId);
+                    if(informationNotification == null)
+                    {
+                        db.Information_notifications.Add(new Information_notification
+                        {
+                            Id_user = userId,
+                        });
+                    }
+                    else if(isSubscribed == false)
+                    {
+                        db.Information_notifications.Remove(informationNotification);
+                    }
+                    db.SaveChanges();
+
+                    var finalResult = new
+                    {
+                        success = true,
+                        message = String.Empty,
+                        userMetaNotification = isSubscribed
+                    };
+
+                    return finalResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                var finalResult = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+                return finalResult;
             }
         }
     }
