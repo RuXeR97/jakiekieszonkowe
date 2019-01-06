@@ -273,7 +273,7 @@ namespace jakiekieszonkowe_api.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [ActionName("EditChild")]
-        public object EditChild(DateTime dateOfBirth, string name, double quota, int cityId, DateTime paymentDate,
+        public object EditChild(int childId, DateTime dateOfBirth, string name, double quota, int cityId, DateTime paymentDate,
             int paymentPeriodId, int schoolTypeId, string token)
         {
             bool wasSuccess = false;
@@ -282,7 +282,7 @@ namespace jakiekieszonkowe_api.Controllers
             try
             {
                 wasSuccess = true;
-                resultList = EditChildDetailed(dateOfBirth, name, quota, cityId, null, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
+                resultList = EditChildDetailed(childId, dateOfBirth, name, quota, cityId, null, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
             }
             catch (Exception ex)
             {
@@ -300,7 +300,7 @@ namespace jakiekieszonkowe_api.Controllers
 
             return finalResult;
         }
-        private IEnumerable<object> EditChildDetailed(DateTime dateOfBirth, string name, double quota, int cityId, List<int> moneyIncludes,
+        private IEnumerable<object> EditChildDetailed(int childId, DateTime dateOfBirth, string name, double quota, int cityId, List<int> moneyIncludes,
             DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
         {
             List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
@@ -327,7 +327,7 @@ namespace jakiekieszonkowe_api.Controllers
                         }
                     }
                     
-                    Child child = db.Children.FirstOrDefault(i => i.Id_user == userId && i.First_name == name);
+                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
                     child.First_name = name;
                     child.Current_amount_of_money = (decimal)quota;
                     child.Id_city = cityId;
@@ -363,6 +363,340 @@ namespace jakiekieszonkowe_api.Controllers
                     }
 
                     return userChildrenList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("DeleteChild")]
+        public object DeleteChild(int childId, string token)
+        {
+            bool wasSuccess = false;
+            string errorMessage = string.Empty;
+            var resultList = new List<object>();
+            try
+            {
+                wasSuccess = true;
+                resultList = DeleteChildDetailed(childId, token).ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                wasSuccess = false;
+            }
+
+            var finalResult = new
+            {
+                success = wasSuccess,
+                message = errorMessage,
+                list = resultList
+            };
+
+            return finalResult;
+        }
+        private IEnumerable<object> DeleteChildDetailed(int childId, string token)
+        {
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
+                    db.Children.Remove(child);
+                    db.SaveChanges();
+
+                    var children = db.Children.Where(i => i.Id_user == userId);
+                    var userChildrenList = new List<object>();
+
+                    foreach (var singleChild in children)
+                    {
+                        userChildrenList.Add(new
+                        {
+                            id = singleChild.Id_child,
+                            name = singleChild.First_name,
+                            age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
+                            schoolTypeId = singleChild.Id_education_stage,
+                            quota = singleChild.Current_amount_of_money,
+                            paymentPeriodId = singleChild.Id_payout_period,
+                            paymentDate = singleChild.Date_of_payout,
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate(),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate(),
+                            provinceId = singleChild.City.Id_province,
+                            cityId = singleChild.Id_city,
+                            moneyIncludes = singleChild.Pocket_money_option
+                        });
+                    }
+
+                    return userChildrenList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("ChangePassword")]
+        public object ChangePassword(string newPassword, string token)
+        {
+            bool wasSuccess = false;
+            string errorMessage = string.Empty;
+            try
+            {
+                wasSuccess = true;
+                ChangePasswordDetailed(newPassword, token);
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                wasSuccess = false;
+            }
+
+            var finalResult = new
+            {
+                success = wasSuccess,
+                message = errorMessage,
+            };
+
+            return finalResult;
+        }
+        private void ChangePasswordDetailed(string newPassword, string token)
+        {
+            List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    User user = db.Users.FirstOrDefault(i => i.Id_user == userId);
+                    string hashedPassword = Security.HashSHA1(newPassword + user.UserGuid.ToString());
+                    user.Password = hashedPassword;
+                    db.Users.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("ChangeUserData")]
+        public object ChangeUserData(int cityId, string token)
+        {
+            return ChangeUserDataDetailed(cityId, token);
+        }
+        private object ChangeUserDataDetailed(int cityId, string token)
+        {
+            string errorMessage = string.Empty;
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    User user = db.Users.FirstOrDefault(i => i.Id_user == userId);
+                    user.Id_city = cityId;
+                    db.Users.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
+                    
+                    var finalResult = new
+                    {
+                        success = true,
+                        message = String.Empty,
+                        email = user.Email,
+                        accountActivationDate = user.Account_registration_date,
+                        accountLastLogInDate = user.Last_login_date,
+                        provinceId = user.City.Id_province,
+                        cityId = user.Id_city,
+                        province = user.City.Province.Name,
+                        city = user.City.Name
+                    };
+
+                    return finalResult;
+                }
+            }
+            catch (Exception ex)
+            {
+                var finalResult = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+                return finalResult;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("AddNotification")]
+        public object AddNotification(int childId, int notificationOverLap, string token)
+        {
+            bool wasSuccess = false;
+            string errorMessage = string.Empty;
+            var resultList = new List<object>();
+            try
+            {
+                wasSuccess = true;
+                resultList = AddNotificationDetailed(childId, notificationOverLap, token).ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                wasSuccess = false;
+
+            }
+
+            var finalResult = new
+            {
+                success = wasSuccess,
+                message = errorMessage,
+                list = resultList
+            };
+
+            return finalResult;
+        }
+        private IEnumerable<object> AddNotificationDetailed(int childId, int notificationOverLap, string token)
+        {
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    Reminder_notification reminderNotification = new Reminder_notification
+                    {
+                        Id_child = childId,
+                        Id_user = userId,
+                        Days_number = notificationOverLap
+                    };
+                    db.Reminder_notifications.Add(reminderNotification);
+                    db.SaveChanges();
+
+                    var reminderNotificaions = db.Reminder_notifications.Where(i => i.Id_user == userId);
+                    var reminderNotificaionsList = new List<object>();
+
+                    foreach (var singleReminderNotification in reminderNotificaions)
+                    {
+                        reminderNotificaionsList.Add(new
+                        {
+                            id = singleReminderNotification.Id_reminder_notification,
+                            kidId = singleReminderNotification.Id_child,
+                            notificationOverlap = singleReminderNotification.Days_number,
+                        });
+                    }
+                    return reminderNotificaionsList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("DeleteNotification")]
+        public object DeleteNotification(int notificationId, string token)
+        {
+            bool wasSuccess = false;
+            string errorMessage = string.Empty;
+            var resultList = new List<object>();
+            try
+            {
+                wasSuccess = true;
+                resultList = DeleteNotificationDetailed(notificationId, token).ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                wasSuccess = false;
+
+            }
+
+            var finalResult = new
+            {
+                success = wasSuccess,
+                message = errorMessage,
+                list = resultList
+            };
+
+            return finalResult;
+        }
+        private IEnumerable<object> DeleteNotificationDetailed(int notificationId, string token)
+        {
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    Reminder_notification reminderNotification = db.Reminder_notifications.FirstOrDefault(i => i.Id_reminder_notification == notificationId);
+                    db.Reminder_notifications.Remove(reminderNotification);
+                    db.SaveChanges();
+
+                    var reminderNotificaions = db.Reminder_notifications.Where(i => i.Id_user == userId);
+                    var reminderNotificaionsList = new List<object>();
+
+                    foreach (var singleReminderNotification in reminderNotificaions)
+                    {
+                        reminderNotificaionsList.Add(new
+                        {
+                            id = singleReminderNotification.Id_reminder_notification,
+                            kidId = singleReminderNotification.Id_child,
+                            notificationOverlap = singleReminderNotification.Days_number,
+                        });
+                    }
+                    return reminderNotificaionsList;
                 }
             }
             catch (Exception ex)

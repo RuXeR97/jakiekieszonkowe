@@ -19,11 +19,7 @@ namespace jakiekieszonkowe_api.Database
             : base("name=JakieKieszonkoweEntities")
         {
         }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
+   
     
         public virtual DbSet<Child> Children { get; set; }
         public virtual DbSet<City> Cities { get; set; }
@@ -37,5 +33,23 @@ namespace jakiekieszonkowe_api.Database
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Reminder_notification> Reminder_notifications { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Child>()
+                .HasOptional(a =>a.Reminder_notification)
+                .WithOptionalDependent()
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Child>()
+                .HasOptional(a => a.Payout_period)
+                .WithOptionalDependent()
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Child>()
+                .HasOptional(a => a.Pocket_money_option)
+                .WithOptionalDependent()
+                .WillCascadeOnDelete(true);
+        }
     }
 }
