@@ -17,7 +17,7 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Comment()
         {
-            this.Likes = new HashSet<Likes>();
+            this.Likes = new HashSet<Like>();
         }
     
         public int Id_comment { get; set; }
@@ -31,7 +31,7 @@ namespace jakiekieszonkowe_api.Database
         public virtual City City { get; set; }
         public virtual User User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Likes> Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
         public virtual Province Province { get; set; }
     }
 }

@@ -19,7 +19,11 @@ namespace jakiekieszonkowe_api.Database
             : base("name=JakieKieszonkoweEntities")
         {
         }
-   
+    
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            throw new UnintentionalCodeFirstException();
+        }
     
         public virtual DbSet<Child> Children { get; set; }
         public virtual DbSet<City> Cities { get; set; }
@@ -27,29 +31,11 @@ namespace jakiekieszonkowe_api.Database
         public virtual DbSet<Education_stage> Education_stage { get; set; }
         public virtual DbSet<History> History { get; set; }
         public virtual DbSet<Information_notification> Information_notifications { get; set; }
-        public virtual DbSet<Likes> Likes { get; set; }
+        public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Payout_period> Payout_periods { get; set; }
         public virtual DbSet<Pocket_money_option> Pocket_money_options { get; set; }
         public virtual DbSet<Province> Provinces { get; set; }
         public virtual DbSet<Reminder_notification> Reminder_notifications { get; set; }
         public virtual DbSet<User> Users { get; set; }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Child>()
-                .HasOptional(a =>a.Reminder_notification)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Child>()
-                .HasOptional(a => a.Payout_period)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Child>()
-                .HasOptional(a => a.Pocket_money_option)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete(true);
-        }
     }
 }

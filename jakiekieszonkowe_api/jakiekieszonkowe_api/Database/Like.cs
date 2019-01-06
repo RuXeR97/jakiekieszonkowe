@@ -12,7 +12,7 @@ namespace jakiekieszonkowe_api.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class Likes
+    public partial class Like
     {
         public int Id_like { get; set; }
         public int Id_user { get; set; }

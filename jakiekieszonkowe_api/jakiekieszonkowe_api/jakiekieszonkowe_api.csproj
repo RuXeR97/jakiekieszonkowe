@@ -127,7 +127,7 @@
     <Compile Include="Database\Information_notification.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
-    <Compile Include="Database\Likes.cs">
+    <Compile Include="Database\Like.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\Model.Context.cs">

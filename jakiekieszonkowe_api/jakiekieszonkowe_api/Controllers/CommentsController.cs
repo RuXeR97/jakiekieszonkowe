@@ -2,6 +2,7 @@
 using jakiekieszonkowe_api.Other;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -46,6 +47,8 @@ namespace jakiekieszonkowe_api.Controllers
         }
         private IEnumerable<object> GetCommentsDetailed(int cityId, int provinceId)
         {
+
+
             IEnumerable<Comment> cityComments;
             var finalResultComments = new List<object>();
             using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
@@ -141,6 +144,82 @@ namespace jakiekieszonkowe_api.Controllers
             catch (Exception ex)
             {
                 throw ex;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("ToggleCommentUpvote")]
+        public object ToggleCommentUpvote(int commentId, bool isLiked, string token)
+        {
+            return ToggleCommentUpvoteDetailed(commentId, isLiked, token);
+        }
+        private object ToggleCommentUpvoteDetailed(int commentId, bool isLiked, string token)
+        {
+            int userId;
+            try
+            {
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    Comment comment = db.Comments.FirstOrDefault(i => i.Id_comment == commentId);
+                    Like like;
+                    int? cityId, provinceId;
+                    if (isLiked)
+                    {
+                        comment.Likes_amount = comment.Likes_amount + 1;
+                        db.Comments.Attach(comment);
+                        db.Entry(comment).State = EntityState.Modified;
+
+                        like = new Like
+                        {
+                            Amount_of_likes = 1,
+                            Id_user = userId,
+                            Id_comment = comment.Id_comment
+                        };
+                        db.Likes.Add(like);
+                        db.SaveChanges();
+
+                        like = db.Likes.FirstOrDefault(i => i.Id_comment == commentId && i.Id_user == userId);
+                        cityId = like.Comment.Id_city;
+                        provinceId = like.Comment.Id_province;
+                    }
+                    else
+                    {
+                        comment.Likes_amount--;
+                        db.Comments.Attach(comment);
+                        db.Entry(comment).State = EntityState.Modified;
+
+                        like = db.Likes.FirstOrDefault(i => i.Id_comment == commentId && i.Id_user == userId);
+                        cityId = like.Comment.Id_city;
+                        provinceId = like.Comment.Id_province;
+                        db.Likes.Remove(like);
+                    }
+                    db.SaveChanges();
+
+                    if (cityId == null)
+                        cityId = -1;
+
+                    if (provinceId == null)
+                        provinceId = -1;
+                    return GetCommentsDetailed(cityId.Value, provinceId.Value);
+                }
+            }
+            catch(Exception ex)
+            {
+                var finalResult = new
+                {
+                    success = false,
+                    message = ex.Message,
+                };
+
+                return finalResult;
             }
         }
     }

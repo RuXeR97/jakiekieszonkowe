@@ -20,7 +20,7 @@ namespace jakiekieszonkowe_api.Database
             this.Child = new HashSet<Child>();
             this.Comment = new HashSet<Comment>();
             this.Information_notification = new HashSet<Information_notification>();
-            this.Likes = new HashSet<Likes>();
+            this.Likes = new HashSet<Like>();
             this.Reminder_notification = new HashSet<Reminder_notification>();
         }
     
@@ -42,7 +42,7 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Information_notification> Information_notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Likes> Likes { get; set; }
+        public virtual ICollection<Like> Likes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
     }

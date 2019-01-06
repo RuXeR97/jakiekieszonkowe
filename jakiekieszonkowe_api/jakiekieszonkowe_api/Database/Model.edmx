@@ -515,7 +515,7 @@
           <Property Name="Id_user" Type="Int32" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.Id_information_notification_user" FromRole="Information_notification" ToRole="User" />
         </EntityType>
-        <EntityType Name="Likes">
+        <EntityType Name="Like">
           <Key>
             <PropertyRef Name="Id_like" />
           </Key>
@@ -694,7 +694,7 @@
         </Association>
         <Association Name="Id_comment_like">
           <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <End Role="Likes" Type="DatabaseModel.Like" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Comment">
               <PropertyRef Name="Id_comment" />
@@ -742,7 +742,7 @@
         </Association>
         <Association Name="Id_user_like">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Likes" Multiplicity="*" />
+          <End Role="Likes" Type="DatabaseModel.Like" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id_user" />
@@ -771,7 +771,7 @@
           <EntitySet Name="Education_stage" EntityType="Self.Education_stage" />
           <EntitySet Name="History" EntityType="Self.History" />
           <EntitySet Name="Information_notifications" EntityType="Self.Information_notification" />
-          <EntitySet Name="Likes" EntityType="Self.Likes" />
+          <EntitySet Name="Likes" EntityType="DatabaseModel.Like" />
           <EntitySet Name="Payout_periods" EntityType="Self.Payout_period" />
           <EntitySet Name="Pocket_money_options" EntityType="Self.Pocket_money_option" />
           <EntitySet Name="Provinces" EntityType="Self.Province" />
@@ -936,7 +936,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Likes">
-            <EntityTypeMapping TypeName="DatabaseModel.Likes">
+            <EntityTypeMapping TypeName="DatabaseModel.Like">
               <MappingFragment StoreEntitySet="Likes">
                 <ScalarProperty Name="Id_like" ColumnName="Id_like" />
                 <ScalarProperty Name="Id_user" ColumnName="Id_user" />
