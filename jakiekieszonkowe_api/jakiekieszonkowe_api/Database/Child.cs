@@ -24,20 +24,20 @@ namespace jakiekieszonkowe_api.Database
         public int Id_child { get; set; }
         public string First_name { get; set; }
         public Nullable<System.DateTime> Date_of_birth { get; set; }
+        public System.DateTime Date_of_payout { get; set; }
         public int Id_user { get; set; }
         public int Id_education_stage { get; set; }
         public int Id_city { get; set; }
-        public decimal Current_amount_of_money { get; set; }
         public int Id_payout_period { get; set; }
-        public System.DateTime Date_of_payout { get; set; }
+        public decimal Current_amount_of_money { get; set; }
     
         public virtual City City { get; set; }
         public virtual Education_stage Education_stage { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
         public virtual User User { get; set; }
-        public virtual Payout_period Payout_period { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Pocket_money_option> Pocket_money_option { get; set; }
+        public virtual Payout_period Payout_period { get; set; }
     }
 }

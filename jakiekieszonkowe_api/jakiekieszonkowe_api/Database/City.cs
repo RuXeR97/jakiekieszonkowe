@@ -17,10 +17,10 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public City()
         {
-            this.Child = new HashSet<Child>();
-            this.User = new HashSet<User>();
-            this.Comment = new HashSet<Comment>();
-            this.History = new HashSet<History>();
+            this.Children = new HashSet<Child>();
+            this.Users = new HashSet<User>();
+            this.Comments = new HashSet<Comment>();
+            this.Histories = new HashSet<History>();
         }
     
         public int Id_city { get; set; }
@@ -28,13 +28,13 @@ namespace jakiekieszonkowe_api.Database
         public Nullable<int> Id_province { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Child> Child { get; set; }
+        public virtual ICollection<Child> Children { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<User> Users { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comment { get; set; }
+        public virtual ICollection<Comment> Comments { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<History> History { get; set; }
+        public virtual ICollection<History> Histories { get; set; }
         public virtual Province Province { get; set; }
     }
 }

@@ -100,7 +100,7 @@ namespace jakiekieszonkowe_api.Controllers
                         db.SaveChanges();
 
                         var userChildrenList = new List<object>();
-                        var children = user.Child.Where(i => i.Id_user == user.Id_user);
+                        var children = user.Children.Where(i => i.Id_user == user.Id_user);
                         foreach (var child in children)
                         {
                             userChildrenList.Add(new
@@ -182,16 +182,22 @@ namespace jakiekieszonkowe_api.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [ActionName("AddChild")]
-        public object AddChild(DateTime dateOfBirth, string name, double quota, int cityId, DateTime paymentDate,
-            int paymentPeriodId, int schoolTypeId, string token)
+        public object AddChild(DateTime dateOfBirth, string name, double quota, int cityId, string moneyIncludes, 
+            DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
         {
             bool wasSuccess = false;
             string errorMessage = string.Empty;
             var resultList = new List<object>();
             try
             {
+                string[] tmp = moneyIncludes.Split(';');
+                List<int> moneyIncludesArray = new List<int>();
+                foreach (var item in tmp)
+                {
+                    moneyIncludesArray.Add(Int32.Parse(item));
+                }
                 wasSuccess = true;
-                resultList = AddChildDetailed(dateOfBirth, name, quota, cityId, null, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
+                resultList = AddChildDetailed(dateOfBirth, name, quota, cityId, moneyIncludesArray, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
             }
             catch (Exception ex)
             {
@@ -233,6 +239,7 @@ namespace jakiekieszonkowe_api.Controllers
                             Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
                             pocketMoneyOptions.Add(pocketMoneyOption);
                         }
+                        db.SaveChanges();
                     }
                     Child child = new Child()
                     {
@@ -271,7 +278,6 @@ namespace jakiekieszonkowe_api.Controllers
                         });
                     }
 
-
                     return userChildrenList;
                 }
             }
@@ -283,7 +289,8 @@ namespace jakiekieszonkowe_api.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [ActionName("EditChild")]
-        public object EditChild(int childId, DateTime dateOfBirth, string name, double quota, int cityId, DateTime paymentDate,
+        public object EditChild(int childId, DateTime dateOfBirth, string name, double quota, int cityId, string moneyIncludes, 
+            DateTime paymentDate,
             int paymentPeriodId, int schoolTypeId, string token)
         {
             bool wasSuccess = false;
@@ -291,8 +298,14 @@ namespace jakiekieszonkowe_api.Controllers
             var resultList = new List<object>();
             try
             {
+                string[] tmp = moneyIncludes.Split(';');
+                List<int> moneyIncludesArray = new List<int>();
+                foreach (var item in tmp)
+                {
+                    moneyIncludesArray.Add(Int32.Parse(item));
+                }
                 wasSuccess = true;
-                resultList = EditChildDetailed(childId, dateOfBirth, name, quota, cityId, null, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
+                resultList = EditChildDetailed(childId, dateOfBirth, name, quota, cityId, moneyIncludesArray, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
             }
             catch (Exception ex)
             {
@@ -334,6 +347,7 @@ namespace jakiekieszonkowe_api.Controllers
                         {
                             Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
                             pocketMoneyOptions.Add(pocketMoneyOption);
+                            db.SaveChanges();
                         }
                     }
                     

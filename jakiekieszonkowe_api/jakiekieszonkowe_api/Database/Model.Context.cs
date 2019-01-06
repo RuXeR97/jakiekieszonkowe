@@ -22,13 +22,21 @@ namespace jakiekieszonkowe_api.Database
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            modelBuilder.Entity<Child>()
+                .HasOptional(i=> i.Reminder_notification)
+                .WithOptionalDependent()
+                .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Child>()
+                .HasOptional(i => i.Pocket_money_option)
+                .WithOptionalDependent()
+                .WillCascadeOnDelete(true);
         }
     
         public virtual DbSet<Child> Children { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Education_stage> Education_stage { get; set; }
+        public virtual DbSet<Education_stage> Education_stages { get; set; }
         public virtual DbSet<History> History { get; set; }
         public virtual DbSet<Information_notification> Information_notifications { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
