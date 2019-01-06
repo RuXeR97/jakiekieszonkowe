@@ -101,13 +101,13 @@ namespace jakiekieszonkowe_api.Controllers
                                 id = child.Id_child,
                                 name = child.First_name.Trim(),
                                 age = DateTime.Now.ToLocalTime().ToLocalTime().Year - child.Date_of_birth.Value.Year,
-                                dateOfBirth = child.Date_of_birth?.ToString("YYYY-MM-DD"),
+                                dateOfBirth = child.Date_of_birth?.ToString("yyyy-MM-dd"),
                                 schoolTypeId = child.Id_education_stage,
                                 quota = child.Current_amount_of_money,
                                 paymentPeriodId = child.Id_payout_period,
-                                paymentDate = child.Date_of_payout.ToString("YYYY-MM-DD"),
-                                prevPaymentDate = child.Date_of_payout.PreviousPaymentDate()?.ToString("YYYY-MM-DD"),
-                                nextPaymentDate = child.Date_of_payout.NextPaymentDate()?.ToString("YYYY-MM-DD"),
+                                paymentDate = child.Date_of_payout.ToString("yyyy-MM-dd"),
+                                prevPaymentDate = child.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
+                                nextPaymentDate = child.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
                                 provinceId = child.City.Id_province,
                                 cityId = child.Id_city,
                                 moneyIncludes = child.Pocket_money_option
@@ -138,8 +138,8 @@ namespace jakiekieszonkowe_api.Controllers
                             userData = new                                     
                             {
                                 email = user.Email.Trim(),
-                                accountActivationDate = user.Account_registration_date.ToString("YYYY-MM-DD"),
-                                accountLastLogInDate =  user.Last_login_date?.ToString("YYYY-MM-DD"),
+                                accountActivationDate = user.Account_registration_date.ToString("yyyy-MM-dd"),
+                                accountLastLogInDate =  user.Last_login_date?.ToString("yyyy-MM-dd"),
                                 provinceId = user.City.Id_province,
                                 cityId = user.Id_city,
                                 province = user.City.Province.Name.Trim(),
@@ -219,7 +219,7 @@ namespace jakiekieszonkowe_api.Controllers
 
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
-                    if(moneyIncludes != null)
+                    if (moneyIncludes != null)
                     {
                         foreach (int id in moneyIncludes)
                         {
@@ -251,17 +251,16 @@ namespace jakiekieszonkowe_api.Controllers
                             id = singleChild.Id_child,
                             name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
-                            dateOfBirth = singleChild.Date_of_birth?.ToString("YYYY-MM-DD"),
+                            dateOfBirth = singleChild.Date_of_birth?.ToString("yyyy-MM-dd"),
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
-                            paymentDate = singleChild.Date_of_payout.ToString("YYYY-MM-DD"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("YYYY-MM-DD"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("YYYY-MM-DD"),
-                            provinceId = singleChild.City.Id_province,
+                            paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = singleChild.Pocket_money_option
-
                         });
                     }
 
@@ -354,14 +353,14 @@ namespace jakiekieszonkowe_api.Controllers
                             id = singleChild.Id_child,
                             name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
-                            dateOfBirth = singleChild.Date_of_birth?.ToString("YYYY-MM-DD"),
+                            dateOfBirth = singleChild.Date_of_birth?.ToString("yyyy-MM-dd"),
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
-                            paymentDate = singleChild.Date_of_payout.ToString("YYYY-MM-DD"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("YYYY-MM-DD"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("YYYY-MM-DD"),
-                            provinceId = singleChild.City.Id_province,
+                            paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = singleChild.Pocket_money_option
                         });
@@ -433,14 +432,14 @@ namespace jakiekieszonkowe_api.Controllers
                             id = singleChild.Id_child,
                             name = singleChild.First_name.Trim(),
                             age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
-                            dateOfBirth = singleChild.Date_of_birth?.ToString("YYYY-MM-DD"),
+                            dateOfBirth = singleChild.Date_of_birth?.ToString("yyyy-MM-dd"),
                             schoolTypeId = singleChild.Id_education_stage,
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
-                            paymentDate = singleChild.Date_of_payout.ToString("YYYY-MM-DD"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("YYYY-MM-DD"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("YYYY-MM-DD"),
-                            provinceId = singleChild.City.Id_province,
+                            paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = singleChild.Pocket_money_option
                         });
@@ -546,8 +545,8 @@ namespace jakiekieszonkowe_api.Controllers
                         success = true,
                         message = String.Empty,
                         email = user.Email.Trim(),
-                        accountActivationDate = user.Account_registration_date.ToString("YYYY-MM-DD"),
-                        accountLastLogInDate = user.Last_login_date?.ToString("YYYY-MM-DD"),
+                        accountActivationDate = user.Account_registration_date.ToString("yyyy-MM-dd"),
+                        accountLastLogInDate = user.Last_login_date?.ToString("yyyy-MM-dd"),
                         provinceId = user.City.Id_province,
                         cityId = user.Id_city,
                         province = user.City.Province.Name.Trim(),
