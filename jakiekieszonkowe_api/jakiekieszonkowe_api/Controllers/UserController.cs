@@ -94,6 +94,11 @@ namespace jakiekieszonkowe_api.Controllers
                         if (!Security.UserTokens.Any(i => i.Key == user.Id_user))
                             Security.UserTokens.Add(user.Id_user, generatedToken);
 
+                        user.Last_login_date = DateTime.Now;
+                        db.Users.Attach(user);
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
+
                         var userChildrenList = new List<object>();
                         var children = user.Child.Where(i => i.Id_user == user.Id_user);
                         foreach (var child in children)
@@ -136,7 +141,7 @@ namespace jakiekieszonkowe_api.Controllers
                             message = String.Empty,
                             isValidated = true,
                             isAdmin = user.IsAdmin,
-                            token = generatedToken,
+                            token = Security.UserTokens.FirstOrDefault(i => i.Key == user.Id_user).Value,
                             userData = new                                     
                             {
                                 email = user.Email.Trim(),
