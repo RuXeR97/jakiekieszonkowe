@@ -89,7 +89,7 @@ namespace jakiekieszonkowe_api.Controllers
                     {
                         // The password is correct
                         string generatedToken = Security.GenerateToken(user.Email);
-                        if (Security.UserTokens.Any(i => i.Value == generatedToken))
+                        if (!Security.UserTokens.Any(i => i.Value == generatedToken))
                             Security.UserTokens.Add(user.Id_user, generatedToken);
 
                         var userChildrenList = new List<object>();
@@ -756,6 +756,45 @@ namespace jakiekieszonkowe_api.Controllers
 
                     return finalResult;
                 }
+            }
+            catch (Exception ex)
+            {
+                var finalResult = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+                return finalResult;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("LogOut")]
+        public object LogOut(string token)
+        {
+            return LogOutDetailed(token);
+        }
+        private object LogOutDetailed(string token)
+        {
+            string errorMessage = string.Empty;
+            try
+            {
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    int userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                    Security.UserTokens.Remove(userId);
+                }
+                else
+                {
+                    throw new Exception("Wystąpił problem podczas wylogowywania");
+                }
+
+                var finalResult = new
+                {
+                    success = true,
+                    message = errorMessage
+                };
+                return finalResult;
             }
             catch (Exception ex)
             {
