@@ -17,7 +17,7 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Pocket_money_option()
         {
-            this.User = new HashSet<User>();
+            this.Child = new HashSet<Child>();
         }
     
         public int Id_pocket_money_option { get; set; }
@@ -25,6 +25,6 @@ namespace jakiekieszonkowe_api.Database
         public Nullable<bool> Is_checked { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<Child> Child { get; set; }
     }
 }

@@ -12,10 +12,20 @@
           <Property Name="Id_child" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="First_name" Type="nchar" MaxLength="50" />
           <Property Name="Date_of_birth" Type="date" />
+          <Property Name="Date_of_payout" Type="date" Nullable="false" />
           <Property Name="Id_user" Type="int" Nullable="false" />
           <Property Name="Id_education_stage" Type="int" Nullable="false" />
           <Property Name="Id_city" Type="int" Nullable="false" />
+          <Property Name="Id_payout_period" Type="int" Nullable="false" />
           <Property Name="Current_amount_of_money" Type="money" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Child_pocket_money_option">
+          <Key>
+            <PropertyRef Name="Id_child" />
+            <PropertyRef Name="Id_pocket_money_option" />
+          </Key>
+          <Property Name="Id_child" Type="int" Nullable="false" />
+          <Property Name="Id_pocket_money_option" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -118,14 +128,6 @@
           <Property Name="Token" Type="nchar" MaxLength="40" />
           <Property Name="IsAdmin" Type="bit" Nullable="false" />
         </EntityType>
-        <EntityType Name="User_pocket_money_option">
-          <Key>
-            <PropertyRef Name="Id_user" />
-            <PropertyRef Name="Id_pocket_money_option" />
-          </Key>
-          <Property Name="Id_user" Type="int" Nullable="false" />
-          <Property Name="Id_pocket_money_option" Type="int" Nullable="false" />
-        </EntityType>
         <Association Name="Id_child_city">
           <End Role="City" Type="Self.City" Multiplicity="1" />
           <End Role="Child" Type="Self.Child" Multiplicity="*" />
@@ -135,6 +137,18 @@
             </Principal>
             <Dependent Role="Child">
               <PropertyRef Name="Id_city" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_child_pocket_money_option">
+          <End Role="Child" Type="Self.Child" Multiplicity="1" />
+          <End Role="Child_pocket_money_option" Type="Self.Child_pocket_money_option" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Child">
+              <PropertyRef Name="Id_child" />
+            </Principal>
+            <Dependent Role="Child_pocket_money_option">
+              <PropertyRef Name="Id_child" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -222,14 +236,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="Id_payout_period">
+          <End Role="Payout_period" Type="Self.Payout_period" Multiplicity="1" />
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payout_period">
+              <PropertyRef Name="Id_Payout_period" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="Id_payout_period" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="Id_pocket_money_option_user">
           <End Role="Pocket_money_option" Type="Self.Pocket_money_option" Multiplicity="1" />
-          <End Role="User_pocket_money_option" Type="Self.User_pocket_money_option" Multiplicity="*" />
+          <End Role="Child_pocket_money_option" Type="Self.Child_pocket_money_option" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Pocket_money_option">
               <PropertyRef Name="Id_pocket_money_option" />
             </Principal>
-            <Dependent Role="User_pocket_money_option">
+            <Dependent Role="Child_pocket_money_option">
               <PropertyRef Name="Id_pocket_money_option" />
             </Dependent>
           </ReferentialConstraint>
@@ -318,20 +344,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="Id_user_pocket_money_option">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="User_pocket_money_option" Type="Self.User_pocket_money_option" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id_user" />
-            </Principal>
-            <Dependent Role="User_pocket_money_option">
-              <PropertyRef Name="Id_user" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="DatabaseModelStoreContainer">
           <EntitySet Name="Child" EntityType="Self.Child" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Child_pocket_money_option" EntityType="Self.Child_pocket_money_option" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="City" EntityType="Self.City" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Comment" EntityType="Self.Comment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Education_stage" EntityType="Self.Education_stage" Schema="dbo" store:Type="Tables" />
@@ -343,10 +358,13 @@
           <EntitySet Name="Province" EntityType="Self.Province" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Reminder_notification" EntityType="Self.Reminder_notification" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="User_pocket_money_option" EntityType="Self.User_pocket_money_option" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="Id_child_city" Association="Self.Id_child_city">
             <End Role="City" EntitySet="City" />
             <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
+          <AssociationSet Name="Id_child_pocket_money_option" Association="Self.Id_child_pocket_money_option">
+            <End Role="Child" EntitySet="Child" />
+            <End Role="Child_pocket_money_option" EntitySet="Child_pocket_money_option" />
           </AssociationSet>
           <AssociationSet Name="Id_city" Association="Self.Id_city">
             <End Role="City" EntitySet="City" />
@@ -376,9 +394,13 @@
             <End Role="User" EntitySet="User" />
             <End Role="Information_notification" EntitySet="Information_notification" />
           </AssociationSet>
+          <AssociationSet Name="Id_payout_period" Association="Self.Id_payout_period">
+            <End Role="Payout_period" EntitySet="Payout_period" />
+            <End Role="Child" EntitySet="Child" />
+          </AssociationSet>
           <AssociationSet Name="Id_pocket_money_option_user" Association="Self.Id_pocket_money_option_user">
             <End Role="Pocket_money_option" EntitySet="Pocket_money_option" />
-            <End Role="User_pocket_money_option" EntitySet="User_pocket_money_option" />
+            <End Role="Child_pocket_money_option" EntitySet="Child_pocket_money_option" />
           </AssociationSet>
           <AssociationSet Name="Id_province" Association="Self.Id_province">
             <End Role="Province" EntitySet="Province" />
@@ -408,10 +430,6 @@
             <End Role="User" EntitySet="User" />
             <End Role="Likes" EntitySet="Likes" />
           </AssociationSet>
-          <AssociationSet Name="Id_user_pocket_money_option" Association="Self.Id_user_pocket_money_option">
-            <End Role="User" EntitySet="User" />
-            <End Role="User_pocket_money_option" EntitySet="User_pocket_money_option" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -432,6 +450,10 @@
           <NavigationProperty Name="Education_stage" Relationship="Self.Id_education_stage" FromRole="Child" ToRole="Education_stage" />
           <NavigationProperty Name="Reminder_notification" Relationship="Self.Id_reminder_notification_child" FromRole="Child" ToRole="Reminder_notification" />
           <NavigationProperty Name="User" Relationship="Self.Id_user" FromRole="Child" ToRole="User" />
+          <Property Name="Id_payout_period" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Payout_period" Relationship="DatabaseModel.Id_payout_period" FromRole="Child" ToRole="Payout_period" />
+          <Property Name="Date_of_payout" Type="DateTime" Nullable="false" Precision="0" />
+          <NavigationProperty Name="Pocket_money_option" Relationship="DatabaseModel.Child_pocket_money_option" FromRole="Child" ToRole="Pocket_money_option" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -506,10 +528,11 @@
         </EntityType>
         <EntityType Name="Payout_period">
           <Key>
-            <PropertyRef Name="Id_Payout_period" />
+            <PropertyRef Name="Id_payout_period" />
           </Key>
-          <Property Name="Id_Payout_period" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_payout_period" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Child" Relationship="DatabaseModel.Id_payout_period" FromRole="Payout_period" ToRole="Child" />
         </EntityType>
         <EntityType Name="Pocket_money_option">
           <Key>
@@ -518,7 +541,7 @@
           <Property Name="Id_pocket_money_option" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="Is_checked" Type="Boolean" />
-          <NavigationProperty Name="User" Relationship="Self.User_pocket_money_option" FromRole="Pocket_money_option" ToRole="User" />
+          <NavigationProperty Name="Child" Relationship="DatabaseModel.Child_pocket_money_option" FromRole="Pocket_money_option" ToRole="Child" />
         </EntityType>
         <EntityType Name="Province">
           <Key>
@@ -559,7 +582,6 @@
           <NavigationProperty Name="Information_notification" Relationship="Self.Id_information_notification_user" FromRole="User" ToRole="Information_notification" />
           <NavigationProperty Name="Likes" Relationship="Self.Id_user_like" FromRole="User" ToRole="Likes" />
           <NavigationProperty Name="Reminder_notification" Relationship="Self.Id_reminder_notification_user" FromRole="User" ToRole="Reminder_notification" />
-          <NavigationProperty Name="Pocket_money_option" Relationship="Self.User_pocket_money_option" FromRole="User" ToRole="Pocket_money_option" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="Id_child_city">
@@ -742,10 +764,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="User_pocket_money_option">
-          <End Role="Pocket_money_option" Type="Self.Pocket_money_option" Multiplicity="*" />
-          <End Role="User" Type="Self.User" Multiplicity="*" />
-        </Association>
         <EntityContainer Name="JakieKieszonkoweEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Children" EntityType="Self.Child" />
           <EntitySet Name="Cities" EntityType="Self.City" />
@@ -819,11 +837,31 @@
             <End Role="User" EntitySet="Users" />
             <End Role="Reminder_notification" EntitySet="Reminder_notifications" />
           </AssociationSet>
-          <AssociationSet Name="User_pocket_money_option" Association="Self.User_pocket_money_option">
+          <AssociationSet Name="Id_payout_period" Association="DatabaseModel.Id_payout_period">
+            <End Role="Payout_period" EntitySet="Payout_periods" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="Child_pocket_money_option" Association="DatabaseModel.Child_pocket_money_option">
+            <End Role="Child" EntitySet="Children" />
             <End Role="Pocket_money_option" EntitySet="Pocket_money_options" />
-            <End Role="User" EntitySet="Users" />
           </AssociationSet>
         </EntityContainer>
+        <Association Name="Id_payout_period">
+          <End Type="DatabaseModel.Payout_period" Role="Payout_period" Multiplicity="1" />
+          <End Type="DatabaseModel.Child" Role="Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payout_period">
+              <PropertyRef Name="Id_payout_period" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="Id_payout_period" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Child_pocket_money_option">
+          <End Type="DatabaseModel.Child" Role="Child" Multiplicity="*" />
+          <End Type="DatabaseModel.Pocket_money_option" Role="Pocket_money_option" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -833,6 +871,8 @@
           <EntitySetMapping Name="Children">
             <EntityTypeMapping TypeName="DatabaseModel.Child">
               <MappingFragment StoreEntitySet="Child">
+                <ScalarProperty Name="Date_of_payout" ColumnName="Date_of_payout" />
+                <ScalarProperty Name="Id_payout_period" ColumnName="Id_payout_period" />
                 <ScalarProperty Name="Id_child" ColumnName="Id_child" />
                 <ScalarProperty Name="First_name" ColumnName="First_name" />
                 <ScalarProperty Name="Date_of_birth" ColumnName="Date_of_birth" />
@@ -908,7 +948,7 @@
           <EntitySetMapping Name="Payout_periods">
             <EntityTypeMapping TypeName="DatabaseModel.Payout_period">
               <MappingFragment StoreEntitySet="Payout_period">
-                <ScalarProperty Name="Id_Payout_period" ColumnName="Id_Payout_period" />
+                <ScalarProperty Name="Id_payout_period" ColumnName="Id_Payout_period" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -955,12 +995,12 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="User_pocket_money_option" TypeName="DatabaseModel.User_pocket_money_option" StoreEntitySet="User_pocket_money_option">
+          <AssociationSetMapping Name="Child_pocket_money_option" TypeName="DatabaseModel.Child_pocket_money_option" StoreEntitySet="Child_pocket_money_option">
             <EndProperty Name="Pocket_money_option">
               <ScalarProperty Name="Id_pocket_money_option" ColumnName="Id_pocket_money_option" />
             </EndProperty>
-            <EndProperty Name="User">
-              <ScalarProperty Name="Id_user" ColumnName="Id_user" />
+            <EndProperty Name="Child">
+              <ScalarProperty Name="Id_child" ColumnName="Id_child" />
             </EndProperty>
           </AssociationSetMapping>
         </EntityContainerMapping>

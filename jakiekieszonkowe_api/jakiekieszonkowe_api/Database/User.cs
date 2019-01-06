@@ -22,7 +22,6 @@ namespace jakiekieszonkowe_api.Database
             this.Information_notification = new HashSet<Information_notification>();
             this.Likes = new HashSet<Likes>();
             this.Reminder_notification = new HashSet<Reminder_notification>();
-            this.Pocket_money_option = new HashSet<Pocket_money_option>();
         }
     
         public int Id_user { get; set; }
@@ -46,7 +45,5 @@ namespace jakiekieszonkowe_api.Database
         public virtual ICollection<Likes> Likes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pocket_money_option> Pocket_money_option { get; set; }
     }
 }
