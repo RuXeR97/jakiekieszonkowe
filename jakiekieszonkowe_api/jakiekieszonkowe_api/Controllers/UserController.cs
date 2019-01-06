@@ -89,7 +89,9 @@ namespace jakiekieszonkowe_api.Controllers
                     {
                         // The password is correct
                         string generatedToken = Security.GenerateToken(user.Email);
-                        Security.UserTokens.Add(user.Id_user, generatedToken);
+                        if (Security.UserTokens.Any(i => i.Value == generatedToken))
+                            Security.UserTokens.Add(user.Id_user, generatedToken);
+
                         var userChildrenList = new List<object>();
                         var children = user.Child.Where(i => i.Id_user == user.Id_user);
                         foreach (var child in children)
