@@ -17,8 +17,8 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
         {
-            this.Children = new HashSet<Child>();
-            this.Comments = new HashSet<Comment>();
+            this.Child = new HashSet<Child>();
+            this.Comment = new HashSet<Comment>();
             this.Information_notification = new HashSet<Information_notification>();
             this.Likes = new HashSet<Like>();
             this.Reminder_notification = new HashSet<Reminder_notification>();
@@ -35,10 +35,10 @@ namespace jakiekieszonkowe_api.Database
         public bool IsAdmin { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Child> Children { get; set; }
+        public virtual ICollection<Child> Child { get; set; }
         public virtual City City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comment> Comments { get; set; }
+        public virtual ICollection<Comment> Comment { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Information_notification> Information_notification { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

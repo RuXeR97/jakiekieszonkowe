@@ -27,7 +27,7 @@ namespace jakiekieszonkowe_api.Other
         }
 
         private const string Secret = "db3OIsj+BXE9NZDy0t8W3TcNekrF+2d/1sFnWG4HnV8TZY30iTOdtVWJG8abWvB1GlOgJuQZdcF2Luqm/hccMw==";
-        public static Dictionary<int, string> UserTokens = new Dictionary<int, string>();
+        public volatile static Dictionary<int, string> UserTokens = new Dictionary<int, string>();
 
         public static string GenerateToken(string username, int expireMinutes = 20)
         {

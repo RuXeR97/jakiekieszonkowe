@@ -47,8 +47,6 @@ namespace jakiekieszonkowe_api.Controllers
         }
         private IEnumerable<object> GetCommentsDetailed(int cityId, int provinceId)
         {
-
-
             IEnumerable<Comment> cityComments;
             var finalResultComments = new List<object>();
             using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
@@ -73,9 +71,7 @@ namespace jakiekieszonkowe_api.Controllers
                     });
                 }
             }
-
             
-
             return finalResultComments;
         }
 
@@ -208,6 +204,7 @@ namespace jakiekieszonkowe_api.Controllers
 
                     if (provinceId == null)
                         provinceId = -1;
+
                     return GetCommentsDetailed(cityId.Value, provinceId.Value);
                 }
             }

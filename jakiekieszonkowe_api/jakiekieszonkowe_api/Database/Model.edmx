@@ -89,6 +89,7 @@
           </Key>
           <Property Name="Id_payout_period" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="50" Nullable="false" />
+          <Property Name="Days" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Pocket_money_option">
           <Key>
@@ -449,10 +450,10 @@
           <Property Name="Current_amount_of_money" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <NavigationProperty Name="City" Relationship="Self.Id_child_city" FromRole="Child" ToRole="City" />
           <NavigationProperty Name="Education_stage" Relationship="Self.Id_education_stage" FromRole="Child" ToRole="Education_stage" />
+          <NavigationProperty Name="Payout_period" Relationship="Self.Id_payout_period" FromRole="Child" ToRole="Payout_period" />
           <NavigationProperty Name="Reminder_notification" Relationship="Self.Id_reminder_notification_child" FromRole="Child" ToRole="Reminder_notification" />
           <NavigationProperty Name="User" Relationship="Self.Id_user" FromRole="Child" ToRole="User" />
           <NavigationProperty Name="Pocket_money_option" Relationship="Self.Child_pocket_money_option" FromRole="Child" ToRole="Pocket_money_option" />
-          <NavigationProperty Name="Payout_period" Relationship="DatabaseModel.Id_payout_period" FromRole="Child" ToRole="Payout_period" />
         </EntityType>
         <EntityType Name="City">
           <Key>
@@ -461,10 +462,10 @@
           <Property Name="Id_city" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" />
           <Property Name="Id_province" Type="Int32" />
-          <NavigationProperty Name="Children" Relationship="Self.Id_child_city" FromRole="City" ToRole="Child" />
-          <NavigationProperty Name="Users" Relationship="Self.Id_city" FromRole="City" ToRole="User" />
-          <NavigationProperty Name="Comments" Relationship="Self.Id_city_comment" FromRole="City" ToRole="Comment" />
-          <NavigationProperty Name="Histories" Relationship="Self.Id_city_history" FromRole="City" ToRole="History" />
+          <NavigationProperty Name="Child" Relationship="Self.Id_child_city" FromRole="City" ToRole="Child" />
+          <NavigationProperty Name="User" Relationship="Self.Id_city" FromRole="City" ToRole="User" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_city_comment" FromRole="City" ToRole="Comment" />
+          <NavigationProperty Name="History" Relationship="Self.Id_city_history" FromRole="City" ToRole="History" />
           <NavigationProperty Name="Province" Relationship="Self.Id_province" FromRole="City" ToRole="Province" />
         </EntityType>
         <EntityType Name="Comment">
@@ -489,7 +490,7 @@
           </Key>
           <Property Name="Id_education_stage" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Children" Relationship="Self.Id_education_stage" FromRole="Education_stage" ToRole="Child" />
+          <NavigationProperty Name="Child" Relationship="Self.Id_education_stage" FromRole="Education_stage" ToRole="Child" />
         </EntityType>
         <EntityType Name="History">
           <Key>
@@ -531,7 +532,8 @@
           </Key>
           <Property Name="Id_payout_period" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Children" Relationship="DatabaseModel.Id_payout_period" FromRole="Payout_period" ToRole="Child" />
+          <NavigationProperty Name="Child" Relationship="Self.Id_payout_period" FromRole="Payout_period" ToRole="Child" />
+          <Property Name="Days" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="Pocket_money_option">
           <Key>
@@ -539,7 +541,7 @@
           </Key>
           <Property Name="Id_pocket_money_option" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Children" Relationship="Self.Child_pocket_money_option" FromRole="Pocket_money_option" ToRole="Child" />
+          <NavigationProperty Name="Child" Relationship="Self.Child_pocket_money_option" FromRole="Pocket_money_option" ToRole="Child" />
         </EntityType>
         <EntityType Name="Province">
           <Key>
@@ -547,9 +549,9 @@
           </Key>
           <Property Name="Id_province" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="true" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Cities" Relationship="Self.Id_province" FromRole="Province" ToRole="City" />
-          <NavigationProperty Name="Comments" Relationship="Self.Id_province_comment" FromRole="Province" ToRole="Comment" />
-          <NavigationProperty Name="Histories" Relationship="Self.Id_province_history" FromRole="Province" ToRole="History" />
+          <NavigationProperty Name="City" Relationship="Self.Id_province" FromRole="Province" ToRole="City" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_province_comment" FromRole="Province" ToRole="Comment" />
+          <NavigationProperty Name="History" Relationship="Self.Id_province_history" FromRole="Province" ToRole="History" />
         </EntityType>
         <EntityType Name="Reminder_notification">
           <Key>
@@ -575,9 +577,9 @@
           <Property Name="Account_registration_date" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="Token" Type="String" MaxLength="40" FixedLength="true" Unicode="true" />
           <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Children" Relationship="Self.Id_user" FromRole="User" ToRole="Child" />
+          <NavigationProperty Name="Child" Relationship="Self.Id_user" FromRole="User" ToRole="Child" />
           <NavigationProperty Name="City" Relationship="Self.Id_city" FromRole="User" ToRole="City" />
-          <NavigationProperty Name="Comments" Relationship="Self.Id_city_user_comment" FromRole="User" ToRole="Comment" />
+          <NavigationProperty Name="Comment" Relationship="Self.Id_city_user_comment" FromRole="User" ToRole="Comment" />
           <NavigationProperty Name="Information_notification" Relationship="Self.Id_information_notification_user" FromRole="User" ToRole="Information_notification" />
           <NavigationProperty Name="Likes" Relationship="Self.Id_user_like" FromRole="User" ToRole="Likes" />
           <NavigationProperty Name="Reminder_notification" Relationship="Self.Id_reminder_notification_user" FromRole="User" ToRole="Reminder_notification" />
@@ -603,6 +605,18 @@
             </Principal>
             <Dependent Role="Child">
               <PropertyRef Name="Id_education_stage" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="Id_payout_period">
+          <End Role="Payout_period" Type="Self.Payout_period" Multiplicity="1" />
+          <End Role="Child" Type="Self.Child" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Payout_period">
+              <PropertyRef Name="Id_payout_period" />
+            </Principal>
+            <Dependent Role="Child">
+              <PropertyRef Name="Id_payout_period" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -667,7 +681,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_province">
-          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Province" Type="DatabaseModel.Province" Multiplicity="0..1" />
           <End Role="City" Type="Self.City" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Province">
@@ -692,7 +706,7 @@
         </Association>
         <Association Name="Id_comment_like">
           <End Role="Comment" Type="Self.Comment" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+          <End Role="Likes" Type="DatabaseModel.Like" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Comment">
               <PropertyRef Name="Id_comment" />
@@ -703,7 +717,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_province_comment">
-          <End Role="Province" Type="Self.Province" Multiplicity="0..1" />
+          <End Role="Province" Type="DatabaseModel.Province" Multiplicity="0..1" />
           <End Role="Comment" Type="Self.Comment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Province">
@@ -715,7 +729,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Id_province_history">
-          <End Role="Province" Type="Self.Province" Multiplicity="1" />
+          <End Role="Province" Type="DatabaseModel.Province" Multiplicity="1" />
           <End Role="History" Type="Self.History" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Province">
@@ -740,7 +754,7 @@
         </Association>
         <Association Name="Id_user_like">
           <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Likes" Type="Self.Like" Multiplicity="*" />
+          <End Role="Likes" Type="DatabaseModel.Like" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="User">
               <PropertyRef Name="Id_user" />
@@ -773,10 +787,10 @@
           <EntitySet Name="Education_stages" EntityType="Self.Education_stage" />
           <EntitySet Name="History" EntityType="Self.History" />
           <EntitySet Name="Information_notifications" EntityType="Self.Information_notification" />
-          <EntitySet Name="Likes" EntityType="Self.Like" />
+          <EntitySet Name="Likes" EntityType="DatabaseModel.Like" />
           <EntitySet Name="Payout_periods" EntityType="Self.Payout_period" />
           <EntitySet Name="Pocket_money_options" EntityType="Self.Pocket_money_option" />
-          <EntitySet Name="Provinces" EntityType="Self.Province" />
+          <EntitySet Name="Provinces" EntityType="DatabaseModel.Province" />
           <EntitySet Name="Reminder_notifications" EntityType="Self.Reminder_notification" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="Id_child_city" Association="Self.Id_child_city">
@@ -785,6 +799,10 @@
           </AssociationSet>
           <AssociationSet Name="Id_education_stage" Association="Self.Id_education_stage">
             <End Role="Education_stage" EntitySet="Education_stages" />
+            <End Role="Child" EntitySet="Children" />
+          </AssociationSet>
+          <AssociationSet Name="Id_payout_period" Association="Self.Id_payout_period">
+            <End Role="Payout_period" EntitySet="Payout_periods" />
             <End Role="Child" EntitySet="Children" />
           </AssociationSet>
           <AssociationSet Name="Id_reminder_notification_child" Association="Self.Id_reminder_notification_child">
@@ -843,23 +861,7 @@
             <End Role="Child" EntitySet="Children" />
             <End Role="Pocket_money_option" EntitySet="Pocket_money_options" />
           </AssociationSet>
-          <AssociationSet Name="Id_payout_period" Association="DatabaseModel.Id_payout_period">
-            <End Role="Payout_period" EntitySet="Payout_periods" />
-            <End Role="Child" EntitySet="Children" />
-          </AssociationSet>
         </EntityContainer>
-        <Association Name="Id_payout_period">
-          <End Type="DatabaseModel.Payout_period" Role="Payout_period" Multiplicity="1" />
-          <End Type="DatabaseModel.Child" Role="Child" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Payout_period">
-              <PropertyRef Name="Id_payout_period" />
-            </Principal>
-            <Dependent Role="Child">
-              <PropertyRef Name="Id_payout_period" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -946,6 +948,7 @@
           <EntitySetMapping Name="Payout_periods">
             <EntityTypeMapping TypeName="DatabaseModel.Payout_period">
               <MappingFragment StoreEntitySet="Payout_period">
+                <ScalarProperty Name="Days" ColumnName="Days" />
                 <ScalarProperty Name="Id_payout_period" ColumnName="Id_payout_period" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
               </MappingFragment>
@@ -1014,7 +1017,7 @@
     <Options>
       <DesignerInfoPropertySet>
         <DesignerProperty Name="ValidateOnBuild" Value="true" />
-        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
         <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
         <DesignerProperty Name="UseLegacyProvider" Value="false" />
         <DesignerProperty Name="CodeGenerationStrategy" Value="None" />

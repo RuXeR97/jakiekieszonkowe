@@ -22,15 +22,7 @@ namespace jakiekieszonkowe_api.Database
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Child>()
-                .HasOptional(i=> i.Reminder_notification)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete(true);
-
-            modelBuilder.Entity<Child>()
-                .HasOptional(i => i.Pocket_money_option)
-                .WithOptionalDependent()
-                .WillCascadeOnDelete(true);
+            throw new UnintentionalCodeFirstException();
         }
     
         public virtual DbSet<Child> Children { get; set; }

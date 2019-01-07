@@ -17,13 +17,14 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Payout_period()
         {
-            this.Children = new HashSet<Child>();
+            this.Child = new HashSet<Child>();
         }
     
         public int Id_payout_period { get; set; }
         public string Name { get; set; }
+        public int Days { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Child> Children { get; set; }
+        public virtual ICollection<Child> Child { get; set; }
     }
 }

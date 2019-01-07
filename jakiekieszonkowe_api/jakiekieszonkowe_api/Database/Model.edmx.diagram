@@ -4,21 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0bdfa39a6e56489bb50f63a6d0af2c36" Name="Diagram1">
+      <Diagram DiagramId="04eef835bf214177970826daff793df4" Name="Diagram1" ZoomLevel="86">
         <EntityTypeShape EntityType="DatabaseModel.Child" Width="1.5" PointX="7.5" PointY="11.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.City" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Comment" Width="1.5" PointX="10.5" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="1.5" PointX="5.25" PointY="12.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Comment" Width="1.5" PointX="10.5" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Education_stage" Width="1.5" PointX="5.25" PointY="11.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.History" Width="1.5" PointX="5.25" PointY="7.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Information_notification" Width="1.5" PointX="7.5" PointY="20" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Like" Width="1.5" PointX="12.75" PointY="10.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Payout_period" Width="2" PointX="8.5" PointY="5.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="1.875" PointX="10" PointY="15.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Information_notification" Width="1.5" PointX="7.5" PointY="20.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Like" Width="1.5" PointX="12.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Payout_period" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Pocket_money_option" Width="1.5" PointX="9.75" PointY="15.5" IsExpanded="true" />
         <EntityTypeShape EntityType="DatabaseModel.Province" Width="1.5" PointX="0.75" PointY="7.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.Reminder_notification" Width="1.5" PointX="12.75" PointY="14" IsExpanded="true" />
-        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="5.25" PointY="15" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.Reminder_notification" Width="1.5" PointX="12.75" PointY="14.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DatabaseModel.User" Width="1.5" PointX="5.25" PointY="15.125" IsExpanded="true" />
         <AssociationConnector Association="DatabaseModel.Id_child_city" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_education_stage" ManuallyRouted="false" />
+        <AssociationConnector Association="DatabaseModel.Id_payout_period" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_reminder_notification_child" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_user" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_city" ManuallyRouted="false" />
@@ -33,7 +34,6 @@
         <AssociationConnector Association="DatabaseModel.Id_user_like" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Id_reminder_notification_user" ManuallyRouted="false" />
         <AssociationConnector Association="DatabaseModel.Child_pocket_money_option" ManuallyRouted="false" />
-        <AssociationConnector Association="DatabaseModel.Id_payout_period" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
