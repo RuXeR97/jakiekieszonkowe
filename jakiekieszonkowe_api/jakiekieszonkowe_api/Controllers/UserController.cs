@@ -305,7 +305,6 @@ namespace jakiekieszonkowe_api.Controllers
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
                         });
-                        moneyIncludesList.Clear();
                     }
                     return userChildrenList;
                 }
@@ -428,7 +427,6 @@ namespace jakiekieszonkowe_api.Controllers
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
                         });
-                        moneyIncludesList.Clear();
                     }
 
                     return userChildrenList;
@@ -519,7 +517,6 @@ namespace jakiekieszonkowe_api.Controllers
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
                         });
-                        moneyIncludesList.Clear();
                     }
 
                     return userChildrenList;
