@@ -96,10 +96,10 @@ namespace jakiekieszonkowe_api.Controllers
                         if (!Security.UserTokens.Any(i => i.Key == user.Id_user))
                             Security.UserTokens.Add(user.Id_user, generatedToken);
 
-                        //user.Last_login_date = DateTime.Now;
-                        //db.Users.Attach(user);
-                        //db.Entry(user).State = EntityState.Modified;
-                        //db.SaveChanges();
+                        user.Last_login_date = DateTime.Now;
+                        db.Users.Attach(user);
+                        db.Entry(user).State = EntityState.Modified;
+                        db.SaveChanges();
 
                         var userChildrenList = new List<object>();
                         var children = user.Child.Where(i => i.Id_user == user.Id_user);
@@ -182,115 +182,115 @@ namespace jakiekieszonkowe_api.Controllers
             }
         }
 
-        //[AcceptVerbs("GET", "POST")]
-        //[ActionName("AddChild")]
-        //public object AddChild(DateTime dateOfBirth, string name, double quota, int cityId,  
-        //    DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
-        //{
-        //    bool wasSuccess = false;
-        //    string errorMessage = string.Empty;
-        //    var resultList = new List<object>();
-        //    try
-        //    {
-        //        wasSuccess = true;
-        //        resultList = AddChildDetailed(dateOfBirth, name, quota, cityId, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        errorMessage = ex.Message;
-        //        wasSuccess = false;
-        //    }
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("AddChild")]
+        public object AddChild(DateTime dateOfBirth, string name, double quota, int cityId,
+            DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
+        {
+            bool wasSuccess = false;
+            string errorMessage = string.Empty;
+            var resultList = new List<object>();
+            try
+            {
+                wasSuccess = true;
+                resultList = AddChildDetailed(dateOfBirth, name, quota, cityId, paymentDate, paymentPeriodId, schoolTypeId, token).ToList();
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                wasSuccess = false;
+            }
 
-        //    var finalResult = new
-        //    {
-        //        success = wasSuccess,
-        //        message = errorMessage,
-        //        list = resultList
-        //    };
+            var finalResult = new
+            {
+                success = wasSuccess,
+                message = errorMessage,
+                list = resultList
+            };
 
-        //    return finalResult;
-        //}
-        //private IEnumerable<object> AddChildDetailed(DateTime dateOfBirth, string name, double quota, int cityId, 
-        //    DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
-        //{
-        //    List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
-        //    try
-        //    {
-        //        int userId;
-        //        if (Security.UserTokens.Any(i => i.Value == token))
-        //        {
-        //            userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
-        //        }
-        //        else
-        //        {
-        //            throw new Exception("Identyfikacja użytkownika nie powiodła się");
-        //        }
+            return finalResult;
+        }
+        private IEnumerable<object> AddChildDetailed(DateTime dateOfBirth, string name, double quota, int cityId,
+            DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
+        {
+            List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
 
-        //        List<object> userChildrenList = new List<object>();
-        //        using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
-        //        {
-        //            string moneyIncludes2 = "1%2C2";
-        //            string[] tmp = Regex.Split(moneyIncludes2, "%2C");
-        //            string tmpWithComma = string.Join("", tmp);
-        //            string[] finalArray = tmpWithComma.Split(',');
-        //            List<int> moneyIncludesArray = new List<int>();
-        //            foreach (var item in finalArray)
-        //            {
-        //                moneyIncludesArray.Add(Int32.Parse(item));
-        //            }
+                List<object> userChildrenList = new List<object>();
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    string moneyIncludes2 = "1%2C2";
+                    string[] tmp = Regex.Split(moneyIncludes2, "%2C");
+                    string tmpWithComma = string.Join("", tmp);
+                    string[] finalArray = tmpWithComma.Split(',');
+                    List<int> moneyIncludesArray = new List<int>();
+                    foreach (var item in finalArray)
+                    {
+                        moneyIncludesArray.Add(Int32.Parse(item));
+                    }
 
-        //            if (moneyIncludesArray != null)
-        //            {
-        //                foreach (int id in moneyIncludesArray)
-        //                {
-        //                    Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
-        //                    pocketMoneyOptions.Add(pocketMoneyOption);
-        //                }
-        //                db.SaveChanges();
-        //            }
-        //            Child child = new Child()
-        //            {
-        //                First_name = name,
-        //                Current_amount_of_money = (decimal)quota,
-        //                Id_city = cityId,
-        //                Id_user = userId,
-        //                Date_of_birth = dateOfBirth,
-        //                Id_education_stage = schoolTypeId,
-        //                Pocket_money_option = pocketMoneyOptions,
-        //                Id_payout_period = paymentPeriodId,
-        //                Date_of_payout = paymentDate
-        //            };
-        //            db.Children.Add(child);
-        //            db.SaveChanges();
-        //            var children = db.Children.Where(i => i.Id_user == userId);
+                    if (moneyIncludesArray != null)
+                    {
+                        foreach (int id in moneyIncludesArray)
+                        {
+                            Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
+                            pocketMoneyOptions.Add(pocketMoneyOption);
+                        }
+                        db.SaveChanges();
+                    }
+                    Child child = new Child()
+                    {
+                        First_name = name,
+                        Current_amount_of_money = (decimal)quota,
+                        Id_city = cityId,
+                        Id_user = userId,
+                        Date_of_birth = dateOfBirth,
+                        Id_education_stage = schoolTypeId,
+                        Pocket_money_option = pocketMoneyOptions,
+                        Id_payout_period = paymentPeriodId,
+                        Date_of_payout = paymentDate
+                    };
+                    db.Children.Add(child);
+                    db.SaveChanges();
+                    var children = db.Children.Where(i => i.Id_user == userId);
 
-        //            foreach (var singleChild in children)
-        //            {
-        //                userChildrenList.Add(new
-        //                {
-        //                    id = singleChild.Id_child,
-        //                    name = singleChild.First_name.Trim(),
-        //                    age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
-        //                    dateOfBirth = singleChild.Date_of_birth?.ToString("yyyy-MM-dd"),
-        //                    schoolTypeId = singleChild.Id_education_stage,
-        //                    quota = singleChild.Current_amount_of_money,
-        //                    paymentPeriodId = singleChild.Id_payout_period,
-        //                    paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
-        //                    prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
-        //                    nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
-        //                    provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
-        //                    cityId = singleChild.Id_city,
-        //                    moneyIncludes = singleChild.Pocket_money_option
-        //                });
-        //            }
-        //            return userChildrenList;
-        //        }
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        throw ex;
-        //    }
-        //}
+                    foreach (var singleChild in children)
+                    {
+                        userChildrenList.Add(new
+                        {
+                            id = singleChild.Id_child,
+                            name = singleChild.First_name.Trim(),
+                            age = DateTime.Now.ToLocalTime().ToLocalTime().ToLocalTime().Year - singleChild.Date_of_birth.Value.Year,
+                            dateOfBirth = singleChild.Date_of_birth?.ToString("yyyy-MM-dd"),
+                            schoolTypeId = singleChild.Id_education_stage,
+                            quota = singleChild.Current_amount_of_money,
+                            paymentPeriodId = singleChild.Id_payout_period,
+                            paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
+                            cityId = singleChild.Id_city,
+                            moneyIncludes = singleChild.Pocket_money_option
+                        });
+                    }
+                    return userChildrenList;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
         [AcceptVerbs("GET", "POST")]
         [ActionName("EditChild")]
