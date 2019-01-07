@@ -22,7 +22,7 @@ namespace jakiekieszonkowe_api.Controllers
                         finalResultList.Add(new
                         {
                             id = item.Id_province,
-                            name = item.Name
+                            name = item.Name.Trim(),
                         });
                     }
 
@@ -50,7 +50,7 @@ namespace jakiekieszonkowe_api.Controllers
                         {
                             id = item.Id_city,
                             provinceId = item.Id_province,
-                            name = item.Name
+                            name = item.Name.Trim(),
                         });
                     }
 
@@ -78,7 +78,7 @@ namespace jakiekieszonkowe_api.Controllers
                         {
                             id = item.Id_payout_period,
                             days = item.Days,
-                            name = item.Name
+                            name = item.Name.Trim(),
                         });
                     }
 
@@ -105,7 +105,7 @@ namespace jakiekieszonkowe_api.Controllers
                         finalResultList.Add(new
                         {
                             id = item.Id_education_stage,
-                            name = item.Name
+                            name = item.Name.Trim(),
                         });
                     }
 
@@ -132,7 +132,7 @@ namespace jakiekieszonkowe_api.Controllers
                         finalResultList.Add(new
                         {
                             id = item.Id_pocket_money_option,
-                            name = item.Name
+                            name = item.Name.Trim(),
                         });
                     }
 
