@@ -95,19 +95,26 @@ namespace jakiekieszonkowe_api.Controllers
                                 var idPocketMoney = child.Pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                 var result = moneyIncludesArray.Concat(idPocketMoney);
                                 var finalResultOfSets = result.Union(moneyIncludesArray);
-                                if (finalResultOfSets.Count() != amountOfElements || 
-                                    (idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0))
+                                if (finalResultOfSets.Count() != amountOfElements //|| 
+                                    //(idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0)
+                                    )
                                     children.Remove(child);
                             }
                         }
                     }
-                    
-                    double average = (double)children.Average(i => i.Current_amount_of_money);
-                   
-                    double sumOfSquaresOfDifferences = children.
-                        Select(i => ((double)i.Current_amount_of_money - average) * ((double)i.Current_amount_of_money - average)).Sum();
 
-                    double sd = Math.Sqrt(sumOfSquaresOfDifferences / children.Count());
+                    double average, sumOfSquaresOfDifferences, sd;
+                    average = sumOfSquaresOfDifferences = sd = 0;
+                    if(children.Count > 0)
+                    {
+                        average = (double)children.Average(i => i.Current_amount_of_money);
+
+                        sumOfSquaresOfDifferences = children.
+                            Select(i => ((double)i.Current_amount_of_money - average) * ((double)i.Current_amount_of_money - average)).Sum();
+
+                        sd = Math.Sqrt(sumOfSquaresOfDifferences / children.Count());
+                    }
+                    
                     var finalResult = new
                     {
                         id = 0,
