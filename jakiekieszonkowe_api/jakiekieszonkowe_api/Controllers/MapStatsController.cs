@@ -65,6 +65,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     amountOfElements = moneyIncludesArray.Count;
                 }
+                
             }
 
             try
