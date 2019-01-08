@@ -22,7 +22,35 @@ namespace jakiekieszonkowe_api.Database
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            throw new UnintentionalCodeFirstException();
+            modelBuilder.Entity<Child>()
+              .HasOptional(i => i.Reminder_notification)
+              .WithOptionalDependent()
+              .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Child>()
+              .HasOptional(i => i.Pocket_money_option)
+              .WithOptionalDependent()
+              .WillCascadeOnDelete(true);
+
+            modelBuilder.Entity<Child>()
+                .HasOptional(i => i.Pocket_money_option).WithMany().WillCascadeOnDelete(true);
+            modelBuilder.Entity<Child>()
+                .HasRequired(i => i.Pocket_money_option).WithMany().WillCascadeOnDelete(true);
+            modelBuilder.Entity<Pocket_money_option>()
+                .HasOptional(i => i.Child).WithMany().WillCascadeOnDelete(true);
+            modelBuilder.Entity<Pocket_money_option>()
+                .HasRequired(i => i.Child).WithMany().WillCascadeOnDelete(true);
+
+            //modelBuilder.Entity<Pocket_money_option>()
+            //.HasRequired(i => i.Child)
+            //.WithMany(i => i.)
+            //.HasForeignKey(i => i.UserEntityId)
+            //.WillCascadeOnDelete(false);
+
+            //modelBuilder.Entity<Pocket_money_option>()
+            //    .HasRequired(i => i.Child)
+            //    .WithRequiredPrincipal()
+            //    .WillCascadeOnDelete(true);
         }
     
         public virtual DbSet<Child> Children { get; set; }

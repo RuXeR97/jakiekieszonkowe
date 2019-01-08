@@ -110,11 +110,7 @@ namespace jakiekieszonkowe_api.Controllers
                             moneyIncludesList = new List<object>();
                             foreach (var item in child.Pocket_money_option)
                             {
-                                moneyIncludesList.Add(new
-                                {
-                                    id = item.Id_pocket_money_option,
-                                    name = item.Name.Trim(),
-                                });
+                                moneyIncludesList.Add(item.Id_pocket_money_option);
                             }
 
                             userChildrenList.Add(new
@@ -241,15 +237,24 @@ namespace jakiekieszonkowe_api.Controllers
                 List<object> userChildrenList = new List<object>();
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
-                    string[] tmp = Regex.Split(moneyIncludes, "%2C");
-                    string tmpWithComma = string.Join("", tmp);
-                    string[] finalArray = tmpWithComma.Split(',');
-                    List<int> moneyIncludesArray = new List<int>();
-                    foreach (var item in finalArray)
+                    string[] tmp = null;
+                    string tmpWithComma;
+                    string[] finalArray = null;
+                    if (moneyIncludes != null)
                     {
-                        moneyIncludesArray.Add(Int32.Parse(item));
+                        tmp = Regex.Split(moneyIncludes, "%2C");
+                        tmpWithComma = string.Join("", tmp);
+                        finalArray = tmpWithComma.Split(',');
                     }
-
+                    List<int> moneyIncludesArray = new List<int>();
+                    if(finalArray != null)
+                    {
+                        foreach (var item in finalArray)
+                        {
+                            moneyIncludesArray.Add(Int32.Parse(item));
+                        }
+                    }
+                    
                     if (moneyIncludesArray != null)
                     {
                         foreach (int id in moneyIncludesArray)
@@ -282,11 +287,7 @@ namespace jakiekieszonkowe_api.Controllers
                         moneyIncludesList = new List<object>();
                         foreach (var item in singleChild.Pocket_money_option)
                         {
-                            moneyIncludesList.Add(new
-                            {
-                                id = item.Id_pocket_money_option,
-                                name = item.Name.Trim(),
-                            });
+                            moneyIncludesList.Add(item.Id_pocket_money_option);
                         }
 
                         userChildrenList.Add(new
@@ -404,11 +405,7 @@ namespace jakiekieszonkowe_api.Controllers
                         moneyIncludesList = new List<object>();
                         foreach (var item in singleChild.Pocket_money_option)
                         {
-                            moneyIncludesList.Add(new
-                            {
-                                id = item.Id_pocket_money_option,
-                                name = item.Name.Trim(),
-                            });
+                            moneyIncludesList.Add(item.Id_pocket_money_option);
                         }
 
                         userChildrenList.Add(new
@@ -482,6 +479,8 @@ namespace jakiekieszonkowe_api.Controllers
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
                     Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
+                    var pocketMoneyOptions = child.Pocket_money_option;
+                    db.Pocket_money_options.RemoveRange(pocketMoneyOptions);
                     db.Children.Remove(child);
                     db.SaveChanges();
 
@@ -494,11 +493,7 @@ namespace jakiekieszonkowe_api.Controllers
                         moneyIncludesList = new List<object>();
                         foreach (var item in singleChild.Pocket_money_option)
                         {
-                            moneyIncludesList.Add(new
-                            {
-                                id = item.Id_pocket_money_option,
-                                name = item.Name.Trim(),
-                            });
+                            moneyIncludesList.Add(item.Id_pocket_money_option);
                         }
 
                         userChildrenList.Add(new
