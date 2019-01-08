@@ -85,17 +85,18 @@ namespace jakiekieszonkowe_api.Controllers
                         {
                             children = children.Where(i => i.Id_education_stage == schoolTypeId).ToList();
                         }
-                        
+
                         // moneyIncludes filter
                         if (filterByMoneyIncludes)
                         {
                             List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
-                            foreach(var child in children)
+                            foreach (var child in children)
                             {
                                 var idPocketMoney = child.Pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                 var result = moneyIncludesArray.Concat(idPocketMoney);
                                 var finalResultOfSets = result.Union(moneyIncludesArray);
-                                if (finalResultOfSets.Count() != amountOfElements)
+                                if (finalResultOfSets.Count() != amountOfElements || 
+                                    (idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0))
                                     children.Remove(child);
                             }
                         }
