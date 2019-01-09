@@ -478,11 +478,9 @@ namespace jakiekieszonkowe_api.Controllers
 
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
-                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
-                    var pocketMoneyOptions = child.Pocket_money_option;
-                    db.Pocket_money_options.RemoveRange(pocketMoneyOptions);
-                    db.Children.Remove(child);
-                    db.SaveChanges();
+                    var cls = db.Children.Include(i => i.Pocket_money_option).Single(c => c.Id_child == childId);
+                    db.Children.Remove(cls);
+                    db.SaveChanges();            
 
                     var children = db.Children.Where(i => i.Id_user == userId);
                     var userChildrenList = new List<object>();

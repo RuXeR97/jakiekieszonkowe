@@ -51,6 +51,8 @@ namespace jakiekieszonkowe_api.Controllers
                             id = item.Id_city,
                             provinceId = item.Id_province,
                             name = item.Name.Trim(),
+                            longitude = item.Longitude,
+                            latitude = item.Latitude,
                         });
                     }
 

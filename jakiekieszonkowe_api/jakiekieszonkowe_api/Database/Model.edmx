@@ -686,7 +686,8 @@
         </Association>
         <Association Name="Id_province">
           <End Role="Province" Type="DatabaseModel.Province" Multiplicity="0..1" />
-          <End Role="City" Type="Self.City" Multiplicity="*" />
+          <End Role="City" Type="Self.City" Multiplicity="*" >
+          </End>
           <ReferentialConstraint>
             <Principal Role="Province">
               <PropertyRef Name="Id_province" />
@@ -781,8 +782,10 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="Child_pocket_money_option">
-          <End Role="Child" Type="Self.Child" Multiplicity="*" />
-          <End Role="Pocket_money_option" Type="Self.Pocket_money_option" Multiplicity="*" />
+          <End Role="Child" Type="Self.Child" Multiplicity="*" >
+          </End>
+          <End Role="Pocket_money_option" Type="Self.Pocket_money_option" Multiplicity="*" >
+          </End>
         </Association>
         <EntityContainer Name="JakieKieszonkoweEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Children" EntityType="Self.Child" />

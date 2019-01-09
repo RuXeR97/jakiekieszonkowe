@@ -241,7 +241,7 @@ namespace jakiekieszonkowe_api.Controllers
                         var finalResult = new
                         {
                             id = province.Id_province,
-                            name = province.Name,
+                            name = province.Name.Trim(),
                             avg = average,
                             std = sd,
                             count = children.Count()
@@ -368,7 +368,7 @@ namespace jakiekieszonkowe_api.Controllers
                         {
                             id = city.Id_city,
                             provinceId = city.Id_province,
-                            name = city.Name,
+                            name = city.Name.Trim(),
                             avg = average,
                             std = sd,
                             count = children.Count(),
