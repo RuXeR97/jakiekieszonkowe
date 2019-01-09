@@ -26,6 +26,8 @@ namespace jakiekieszonkowe_api.Database
         public int Id_city { get; set; }
         public string Name { get; set; }
         public Nullable<int> Id_province { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Child> Child { get; set; }

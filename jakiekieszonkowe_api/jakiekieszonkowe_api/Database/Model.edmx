@@ -34,6 +34,8 @@
           <Property Name="Id_city" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="nchar" MaxLength="50" />
           <Property Name="Id_province" Type="int" />
+          <Property Name="Latitude" Type="float" Nullable="false" />
+          <Property Name="Longitude" Type="float" Nullable="false" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -467,6 +469,8 @@
           <NavigationProperty Name="Comment" Relationship="Self.Id_city_comment" FromRole="City" ToRole="Comment" />
           <NavigationProperty Name="History" Relationship="Self.Id_city_history" FromRole="City" ToRole="History" />
           <NavigationProperty Name="Province" Relationship="Self.Id_province" FromRole="City" ToRole="Province" />
+          <Property Name="Latitude" Type="Double" Nullable="false" />
+          <Property Name="Longitude" Type="Double" Nullable="false" />
         </EntityType>
         <EntityType Name="Comment">
           <Key>
@@ -886,6 +890,8 @@
           <EntitySetMapping Name="Cities">
             <EntityTypeMapping TypeName="DatabaseModel.City">
               <MappingFragment StoreEntitySet="City">
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
                 <ScalarProperty Name="Id_city" ColumnName="Id_city" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id_province" ColumnName="Id_province" />
