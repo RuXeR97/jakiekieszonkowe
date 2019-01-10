@@ -577,6 +577,7 @@ namespace jakiekieszonkowe_api.Controllers
             }
         }
 
+
         [AcceptVerbs("GET", "POST")]
         [ActionName("ChangeUserData")]
         public object ChangeUserData(int cityId, string token)
@@ -874,32 +875,26 @@ namespace jakiekieszonkowe_api.Controllers
 
         [AcceptVerbs("GET", "POST")]
         [ActionName("ResetPassword")]
-        public object ResetPassword(string token)
+        public object ResetPassword(string email)
         {
-            return ResetPasswordDetailed(token);
+            return ResetPasswordDetailed(email);
         }
-        private object ResetPasswordDetailed(string token)
+        private object ResetPasswordDetailed(string email)
         {
             string errorMessage = string.Empty;
             try
             {
-                int userId;
-                if (Security.UserTokens.Any(i => i.Value == token))
-                {
-                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
-                }
-                else
-                {
-                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
-                }
                 string newPassword;
                 newPassword = Security.GeneratePassword(15);
                 User user;
                 User admin;
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
-                    ChangePasswordDetailed(newPassword, token);
-                    user = db.Users.FirstOrDefault(i => i.Id_user == userId);
+                    user = db.Users.FirstOrDefault(i => i.Email.Trim() == email);
+                    user.Password = newPassword;
+                    db.Users.Attach(user);
+                    db.Entry(user).State = EntityState.Modified;
+                    db.SaveChanges();
                     admin = db.Users.FirstOrDefault(i => i.Email.Trim() == "jakiekieszonkowe@gmail.com");
                 }
                 string hashedPassword = Security.HashSHA1(admin.Password + admin.UserGuid);
