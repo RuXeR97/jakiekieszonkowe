@@ -891,14 +891,15 @@ namespace jakiekieszonkowe_api.Controllers
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
                     user = db.Users.FirstOrDefault(i => i.Email.Trim() == email);
-                    user.Password = newPassword;
+                    string hashedPassword = Security.HashSHA1(newPassword + user.UserGuid);
+                    user.Password = hashedPassword;
                     db.Users.Attach(user);
                     db.Entry(user).State = EntityState.Modified;
                     db.SaveChanges();
                     admin = db.Users.FirstOrDefault(i => i.Email.Trim() == "jakiekieszonkowe@gmail.com");
                 }
-                string hashedPassword = Security.HashSHA1(admin.Password + admin.UserGuid);
-                Email.SendEmail(user.Email.Trim(), $"Twoje nowe hasło: {newPassword}", "Zmiana hasła", hashedPassword);
+                string hashedPasswordAdmin = Security.HashSHA1(admin.Password + admin.UserGuid);
+                Email.SendEmail(user.Email.Trim(), $"Twoje nowe hasło: {newPassword}", "Zmiana hasła", hashedPasswordAdmin);
                 var finalResult = new
                 {
                     success = true,
