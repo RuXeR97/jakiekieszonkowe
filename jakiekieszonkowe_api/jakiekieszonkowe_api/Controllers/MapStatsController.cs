@@ -90,7 +90,7 @@ namespace jakiekieszonkowe_api.Controllers
                             List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
                             foreach (var child in children)
                             {
-                                var idPocketMoney = child.Pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
+                                var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                 var result = moneyIncludesArray.Concat(idPocketMoney);
                                 var finalResultOfSets = result.Union(moneyIncludesArray);
                                 if (finalResultOfSets.Count() != amountOfElements //|| 
@@ -215,7 +215,7 @@ namespace jakiekieszonkowe_api.Controllers
                                 List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
                                 foreach (var child in children)
                                 {
-                                    var idPocketMoney = child.Pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
+                                    var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
                                     if (finalResultOfSets.Count() != amountOfElements //|| 
@@ -341,7 +341,7 @@ namespace jakiekieszonkowe_api.Controllers
                                 List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
                                 foreach (var child in children)
                                 {
-                                    var idPocketMoney = child.Pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
+                                    var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
                                     if (finalResultOfSets.Count() != amountOfElements //|| 

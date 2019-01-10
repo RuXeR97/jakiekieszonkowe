@@ -26,10 +26,10 @@ namespace jakiekieszonkowe_api.Database
         }
     
         public virtual DbSet<Child> Children { get; set; }
+        public virtual DbSet<Child_pocket_money_option> Child_pocket_money_options { get; set; }
         public virtual DbSet<City> Cities { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
         public virtual DbSet<Education_stage> Education_stages { get; set; }
-        public virtual DbSet<History> History { get; set; }
         public virtual DbSet<Information_notification> Information_notifications { get; set; }
         public virtual DbSet<Like> Likes { get; set; }
         public virtual DbSet<Payout_period> Payout_periods { get; set; }

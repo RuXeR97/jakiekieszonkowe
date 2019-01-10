@@ -179,7 +179,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     Province province = db.Provinces.FirstOrDefault(i => i.Id_province == provinceId);
 
-                    var children = db.Children.Where(i => i.City.Id_province == provinceId).Include(i => i.Pocket_money_option);
+                    var children = db.Children.Where(i => i.City.Id_province == provinceId).Include(i => i.Child_pocket_money_option);
                     foreach (var child in children)
                     {
                         db.Children.Remove(child);
@@ -374,7 +374,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     City city = db.Cities.FirstOrDefault(i => i.Id_city == cityId);
 
-                    var children = db.Children.Where(i => i.Id_city== city.Id_city).Include(i => i.Pocket_money_option);
+                    var children = db.Children.Where(i => i.Id_city== city.Id_city).Include(i => i.Child_pocket_money_option);
                     foreach (var child in children)
                     {
                         db.Children.Remove(child);
@@ -558,7 +558,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     Education_stage educationStage = db.Education_stages.FirstOrDefault(i => i.Id_education_stage == schoolTypeId);
 
-                    var children = db.Children.Where(i => i.Id_education_stage == schoolTypeId).Include(i => i.Pocket_money_option);
+                    var children = db.Children.Where(i => i.Id_education_stage == schoolTypeId).Include(i => i.Child_pocket_money_option);
                     foreach (var child in children)
                     {
                         db.Children.Remove(child);
@@ -743,7 +743,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == moneyIncludesId);
 
-                    var children = db.Children.Where(i => i.Pocket_money_option.Any(j=> j.Id_pocket_money_option == moneyIncludesId)).Include(i => i.Pocket_money_option);
+                    var children = db.Children.Where(i => i.Child_pocket_money_option.Any(j=> j.Id_pocket_money_option == moneyIncludesId)).Include(i => i.Child_pocket_money_option);
                     foreach (var child in children)
                     {
                         db.Children.Remove(child);
@@ -933,7 +933,7 @@ namespace jakiekieszonkowe_api.Controllers
                     }
                     Payout_period payoutPeriod = db.Payout_periods.FirstOrDefault(i => i.Id_payout_period == paymentPeriodId);
 
-                    var children = db.Children.Where(i => i.Id_payout_period == paymentPeriodId).Include(i => i.Pocket_money_option);
+                    var children = db.Children.Where(i => i.Id_payout_period == paymentPeriodId).Include(i => i.Child_pocket_money_option);
                     foreach (var child in children)
                     {
                         db.Children.Remove(child);

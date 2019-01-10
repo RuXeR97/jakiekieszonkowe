@@ -108,7 +108,7 @@ namespace jakiekieszonkowe_api.Controllers
                         foreach (var child in children)
                         {
                             moneyIncludesList = new List<object>();
-                            foreach (var item in child.Pocket_money_option)
+                            foreach (var item in child.Child_pocket_money_option)
                             {
                                 moneyIncludesList.Add(item.Id_pocket_money_option);
                             }
@@ -221,7 +221,7 @@ namespace jakiekieszonkowe_api.Controllers
         private IEnumerable<object> AddChildDetailed(DateTime dateOfBirth, string name, double quota, int cityId, string moneyIncludes,
             DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
         {
-            List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
+            List<Child_pocket_money_option> childPocketMoneyOptions = new List<Child_pocket_money_option>();
             try
             {
                 int userId;
@@ -255,15 +255,7 @@ namespace jakiekieszonkowe_api.Controllers
                         }
                     }
                     
-                    if (moneyIncludesArray != null)
-                    {
-                        foreach (int id in moneyIncludesArray)
-                        {
-                            Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
-                            pocketMoneyOptions.Add(pocketMoneyOption);
-                        }
-                        db.SaveChanges();
-                    }
+
                     Child child = new Child()
                     {
                         First_name = name,
@@ -272,12 +264,27 @@ namespace jakiekieszonkowe_api.Controllers
                         Id_user = userId,
                         Date_of_birth = dateOfBirth,
                         Id_education_stage = schoolTypeId,
-                        Pocket_money_option = pocketMoneyOptions,
                         Id_payout_period = paymentPeriodId,
                         Date_of_payout = paymentDate
                     };
                     db.Children.Add(child);
                     db.SaveChanges();
+
+                    if (moneyIncludesArray != null)
+                    {
+                        foreach (int id in moneyIncludesArray)
+                        {
+                            Child_pocket_money_option childPocketMoneyOption = new Child_pocket_money_option
+                            {
+                                Id_child = child.Id_child,
+                                Id_pocket_money_option = id,
+                            };
+                            childPocketMoneyOptions.Add(childPocketMoneyOption);
+                        }
+                    }
+                    child.Child_pocket_money_option = childPocketMoneyOptions;
+                    db.SaveChanges();
+
                     var children = db.Children.Where(i => i.Id_user == userId);
 
                     List<object> moneyIncludesList;
@@ -285,7 +292,7 @@ namespace jakiekieszonkowe_api.Controllers
                     foreach (var singleChild in children)
                     {
                         moneyIncludesList = new List<object>();
-                        foreach (var item in singleChild.Pocket_money_option)
+                        foreach (var item in singleChild.Child_pocket_money_option)
                         {
                             moneyIncludesList.Add(item.Id_pocket_money_option);
                         }
@@ -349,7 +356,7 @@ namespace jakiekieszonkowe_api.Controllers
         private IEnumerable<object> EditChildDetailed(int childId, DateTime dateOfBirth, string name, double quota, int cityId, string moneyIncludes,
             DateTime paymentDate, int paymentPeriodId, int schoolTypeId, string token)
         {
-            List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
+            List<Child_pocket_money_option> childPocketMoneyOptions = new List<Child_pocket_money_option>();
             try
             {
                 int userId;
@@ -373,23 +380,28 @@ namespace jakiekieszonkowe_api.Controllers
                         moneyIncludesArray.Add(Int32.Parse(item));
                     }
 
+                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
+
                     if (moneyIncludesArray != null)
                     {
                         foreach (int id in moneyIncludesArray)
                         {
-                            Pocket_money_option pocketMoneyOption = db.Pocket_money_options.FirstOrDefault(i => i.Id_pocket_money_option == id);
-                            pocketMoneyOptions.Add(pocketMoneyOption);
-                            db.SaveChanges();
+                            Child_pocket_money_option childPocketMoneyOption = new Child_pocket_money_option
+                            {
+                                Id_child = child.Id_child,
+                                Id_pocket_money_option = id,
+                            };
+                            childPocketMoneyOptions.Add(childPocketMoneyOption);
                         }
                     }
-                    
-                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
+                    db.Child_pocket_money_options.RemoveRange(child.Child_pocket_money_option);
+
                     child.First_name = name;
                     child.Current_amount_of_money = (decimal)quota;
                     child.Id_city = cityId;
                     child.Date_of_birth = dateOfBirth;
                     child.Id_education_stage = schoolTypeId;
-                    child.Pocket_money_option = pocketMoneyOptions;
+                    child.Child_pocket_money_option = childPocketMoneyOptions;
                     child.Id_payout_period = paymentPeriodId;
                     child.Date_of_payout = paymentDate;
                     db.Children.Attach(child);
@@ -403,7 +415,7 @@ namespace jakiekieszonkowe_api.Controllers
                     foreach (var singleChild in children)
                     {
                         moneyIncludesList = new List<object>();
-                        foreach (var item in singleChild.Pocket_money_option)
+                        foreach (var item in singleChild.Child_pocket_money_option)
                         {
                             moneyIncludesList.Add(item.Id_pocket_money_option);
                         }
@@ -478,8 +490,9 @@ namespace jakiekieszonkowe_api.Controllers
 
                 using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
                 {
-                    var cls = db.Children.Include(i => i.Pocket_money_option).Single(c => c.Id_child == childId);
-                    db.Children.Remove(cls);
+                    Child child = db.Children.FirstOrDefault(i => i.Id_child == childId);
+                    db.Child_pocket_money_options.RemoveRange(child.Child_pocket_money_option);
+                    db.Children.Remove(child);
                     db.SaveChanges();            
 
                     var children = db.Children.Where(i => i.Id_user == userId);
@@ -489,7 +502,7 @@ namespace jakiekieszonkowe_api.Controllers
                     foreach (var singleChild in children)
                     {
                         moneyIncludesList = new List<object>();
-                        foreach (var item in singleChild.Pocket_money_option)
+                        foreach (var item in singleChild.Child_pocket_money_option)
                         {
                             moneyIncludesList.Add(item.Id_pocket_money_option);
                         }

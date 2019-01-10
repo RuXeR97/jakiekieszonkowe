@@ -19,7 +19,6 @@ namespace jakiekieszonkowe_api.Database
         {
             this.City = new HashSet<City>();
             this.Comment = new HashSet<Comment>();
-            this.History = new HashSet<History>();
         }
     
         public int Id_province { get; set; }
@@ -29,7 +28,5 @@ namespace jakiekieszonkowe_api.Database
         public virtual ICollection<City> City { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<History> History { get; set; }
     }
 }

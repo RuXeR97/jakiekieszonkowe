@@ -12,18 +12,13 @@ namespace jakiekieszonkowe_api.Database
     using System;
     using System.Collections.Generic;
     
-    public partial class History
+    public partial class Child_pocket_money_option
     {
-        public int Id_history_city { get; set; }
-        public int Id_city { get; set; }
-        public int Id_province { get; set; }
-        public double Average { get; set; }
-        public double Median { get; set; }
-        public System.DateTime Date { get; set; }
-        public int Entries_amount { get; set; }
-        public double Standard_deviation { get; set; }
+        public int Id_child_pocket_money_option { get; set; }
+        public int Id_child { get; set; }
+        public int Id_pocket_money_option { get; set; }
     
-        public virtual City City { get; set; }
-        public virtual Province Province { get; set; }
+        public virtual Child Child { get; set; }
+        public virtual Pocket_money_option Pocket_money_option { get; set; }
     }
 }

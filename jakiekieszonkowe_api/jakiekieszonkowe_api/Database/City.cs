@@ -20,7 +20,6 @@ namespace jakiekieszonkowe_api.Database
             this.Child = new HashSet<Child>();
             this.User = new HashSet<User>();
             this.Comment = new HashSet<Comment>();
-            this.History = new HashSet<History>();
         }
     
         public int Id_city { get; set; }
@@ -35,8 +34,6 @@ namespace jakiekieszonkowe_api.Database
         public virtual ICollection<User> User { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Comment> Comment { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<History> History { get; set; }
         public virtual Province Province { get; set; }
     }
 }

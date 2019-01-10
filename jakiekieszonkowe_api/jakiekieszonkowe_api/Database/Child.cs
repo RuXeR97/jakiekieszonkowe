@@ -17,8 +17,8 @@ namespace jakiekieszonkowe_api.Database
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Child()
         {
+            this.Child_pocket_money_option = new HashSet<Child_pocket_money_option>();
             this.Reminder_notification = new HashSet<Reminder_notification>();
-            this.Pocket_money_option = new HashSet<Pocket_money_option>();
         }
     
         public int Id_child { get; set; }
@@ -32,12 +32,12 @@ namespace jakiekieszonkowe_api.Database
         public decimal Current_amount_of_money { get; set; }
     
         public virtual City City { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Child_pocket_money_option> Child_pocket_money_option { get; set; }
         public virtual Education_stage Education_stage { get; set; }
         public virtual Payout_period Payout_period { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reminder_notification> Reminder_notification { get; set; }
         public virtual User User { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Pocket_money_option> Pocket_money_option { get; set; }
     }
 }
