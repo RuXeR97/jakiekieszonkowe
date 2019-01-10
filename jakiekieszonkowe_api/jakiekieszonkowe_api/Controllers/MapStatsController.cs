@@ -76,7 +76,7 @@ namespace jakiekieszonkowe_api.Controllers
                         // age filter
                         var today = DateTime.Today;
                         children = children.Where(i => (today.Year - i.Date_of_birth.Value.Year >= ageRangeMin) &&
-                        (today.Year - i.Date_of_birth.Value.Year <= ageRangeMin)).ToList();
+                        (today.Year - i.Date_of_birth.Value.Year <= ageRangeMax)).ToList();
 
                         // school type filter
                         if(schoolTypeId != -1)
@@ -201,7 +201,7 @@ namespace jakiekieszonkowe_api.Controllers
                             // age filter
                             var today = DateTime.Today;
                             children = children.Where(i => (today.Year - i.Date_of_birth.Value.Year >= ageRangeMin) &&
-                            (today.Year - i.Date_of_birth.Value.Year <= ageRangeMin)).ToList();
+                            (today.Year - i.Date_of_birth.Value.Year <= ageRangeMax)).ToList();
 
                             // school type filter
                             if (schoolTypeId != -1)
@@ -327,7 +327,7 @@ namespace jakiekieszonkowe_api.Controllers
                             // age filter
                             var today = DateTime.Today;
                             children = children.Where(i => (today.Year - i.Date_of_birth.Value.Year >= ageRangeMin) &&
-                            (today.Year - i.Date_of_birth.Value.Year <= ageRangeMin)).ToList();
+                            (today.Year - i.Date_of_birth.Value.Year <= ageRangeMax)).ToList();
 
                             // school type filter
                             if (schoolTypeId != -1)
