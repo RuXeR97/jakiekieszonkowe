@@ -548,7 +548,6 @@ namespace jakiekieszonkowe_api.Controllers
         }
         private void ChangePasswordDetailed(string newPassword, string token)
         {
-            List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
             try
             {
                 int userId;
@@ -860,6 +859,57 @@ namespace jakiekieszonkowe_api.Controllers
                     success = true,
                     message = errorMessage
                 };
+                return finalResult;
+            }
+            catch (Exception ex)
+            {
+                var finalResult = new
+                {
+                    success = false,
+                    message = ex.Message
+                };
+                return finalResult;
+            }
+        }
+
+        [AcceptVerbs("GET", "POST")]
+        [ActionName("ResetPassword")]
+        public object ResetPassword(string token)
+        {
+            return ResetPasswordDetailed(token);
+        }
+        private object ResetPasswordDetailed(string token)
+        {
+            string errorMessage = string.Empty;
+            try
+            {
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
+                string newPassword;
+                newPassword = Security.GeneratePassword(15);
+                User user;
+                User admin;
+                using (JakieKieszonkoweEntities db = new JakieKieszonkoweEntities())
+                {
+                    ChangePasswordDetailed(newPassword, token);
+                    user = db.Users.FirstOrDefault(i => i.Id_user == userId);
+                    admin = db.Users.FirstOrDefault(i => i.Email.Trim() == "jakiekieszonkowe@gmail.com");
+                }
+                string hashedPassword = Security.HashSHA1(admin.Password + admin.UserGuid);
+                Email.SendEmail(user.Email.Trim(), $"Twoje nowe hasło: {newPassword}", "Zmiana hasła", hashedPassword);
+                var finalResult = new
+                {
+                    success = true,
+                    message = errorMessage
+                };
+
                 return finalResult;
             }
             catch (Exception ex)

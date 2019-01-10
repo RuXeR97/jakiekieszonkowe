@@ -163,6 +163,7 @@
     <Compile Include="Exceptions\UserNotFoundException.cs" />
     <Compile Include="Other\CustomHeaderHandler.cs" />
     <Compile Include="Other\DateTimeExtensions.cs" />
+    <Compile Include="Other\Email.cs" />
     <Compile Include="Other\Security.cs" />
     <Compile Include="Other\StringCipher.cs" />
     <Compile Include="Program.cs" />
