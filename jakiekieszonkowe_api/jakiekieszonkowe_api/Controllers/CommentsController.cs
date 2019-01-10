@@ -205,7 +205,7 @@ namespace jakiekieszonkowe_api.Controllers
                     if (provinceId == null)
                         provinceId = -1;
 
-                    return GetCommentsDetailed(cityId.Value, provinceId.Value);
+                    return GetComments(cityId.Value, provinceId.Value, token);
                 }
             }
             catch(Exception ex)
