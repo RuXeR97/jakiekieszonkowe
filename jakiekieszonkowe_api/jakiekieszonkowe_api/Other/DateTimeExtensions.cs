@@ -18,7 +18,7 @@ namespace jakiekieszonkowe_api.Other
             }
             else
             {
-                int howManyMonths = ((dateOfPayment.Year - DateTime.Now.ToLocalTime().Year) * 12) + dateOfPayment.Month - DateTime.Now.ToLocalTime().Month;
+                int howManyMonths = ((DateTime.Now.ToLocalTime().Year - dateOfPayment.Year) * 12) + (DateTime.Now.ToLocalTime().Month - dateOfPayment.Month);
                 if (howManyMonths != 0)
                     return dateOfPayment.AddMonths(howManyMonths);
                 else
