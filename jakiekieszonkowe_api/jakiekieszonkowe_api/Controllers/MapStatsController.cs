@@ -88,14 +88,12 @@ namespace jakiekieszonkowe_api.Controllers
                         if (filterByMoneyIncludes)
                         {
                             List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
-                            foreach (var child in children)
+                            foreach (var child in children.ToList())
                             {
                                 var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                 var result = moneyIncludesArray.Concat(idPocketMoney);
                                 var finalResultOfSets = result.Union(moneyIncludesArray);
-                                if (finalResultOfSets.Count() != amountOfElements //|| 
-                                    //(idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0)
-                                    )
+                                if (finalResultOfSets.Count() != amountOfElements)
                                     children.Remove(child);
                             }
                         }
@@ -213,14 +211,12 @@ namespace jakiekieszonkowe_api.Controllers
                             if (filterByMoneyIncludes)
                             {
                                 List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
-                                foreach (var child in children)
+                                foreach (var child in children.ToList())
                                 {
                                     var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
-                                    if (finalResultOfSets.Count() != amountOfElements //|| 
-                                                                                      //(idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0)
-                                        )
+                                    if (finalResultOfSets.Count() != amountOfElements)
                                         children.Remove(child);
                                 }
                             }
@@ -339,14 +335,12 @@ namespace jakiekieszonkowe_api.Controllers
                             if (filterByMoneyIncludes)
                             {
                                 List<Pocket_money_option> pocketMoneyOptions = new List<Pocket_money_option>();
-                                foreach (var child in children)
+                                foreach (var child in children.ToList())
                                 {
                                     var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
-                                    if (finalResultOfSets.Count() != amountOfElements //|| 
-                                                                                      //(idPocketMoney.Count != amountOfElements) && (idPocketMoney.Count == 0 || amountOfElements == 0)
-                                        )
+                                    if (finalResultOfSets.Count() != amountOfElements)
                                         children.Remove(child);
                                 }
                             }
