@@ -409,7 +409,7 @@ namespace jakiekieszonkowe_api.Controllers
                     throw new Exception("Identyfikacja użytkownika nie powiodła się");
                 }
                 wasSuccess = true;
-                AddProvinceDetailed(schoolTypeName, userId);
+                AddSchoolTypeDetailed(schoolTypeName, userId);
                 resultList = dictionaryController.GetSchoolTypeDictionary().ToList();
             }
             catch (Exception ex)
