@@ -123,8 +123,8 @@ namespace jakiekieszonkowe_api.Controllers
                                 quota = child.Current_amount_of_money,
                                 paymentPeriodId = child.Id_payout_period,
                                 paymentDate = child.Date_of_payout.ToString("yyyy-MM-dd"),
-                                prevPaymentDate = child.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
-                                nextPaymentDate = child.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                                prevPaymentDate = child.Date_of_payout.PreviousPaymentDate(child.Payout_period.Days)?.ToString("yyyy-MM-dd"),
+                                nextPaymentDate = child.Date_of_payout.NextPaymentDate(child.Payout_period.Days)?.ToString("yyyy-MM-dd"),
                                 provinceId = child.City.Id_province,
                                 cityId = child.Id_city,
                                 moneyIncludes = moneyIncludesList
@@ -307,8 +307,8 @@ namespace jakiekieszonkowe_api.Controllers
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
                             paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
                             provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
@@ -430,8 +430,8 @@ namespace jakiekieszonkowe_api.Controllers
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
                             paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
                             provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
@@ -517,8 +517,8 @@ namespace jakiekieszonkowe_api.Controllers
                             quota = singleChild.Current_amount_of_money,
                             paymentPeriodId = singleChild.Id_payout_period,
                             paymentDate = singleChild.Date_of_payout.ToString("yyyy-MM-dd"),
-                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate()?.ToString("yyyy-MM-dd"),
-                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate()?.ToString("yyyy-MM-dd"),
+                            prevPaymentDate = singleChild.Date_of_payout.PreviousPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
+                            nextPaymentDate = singleChild.Date_of_payout.NextPaymentDate(singleChild.Payout_period.Days)?.ToString("yyyy-MM-dd"),
                             provinceId = db.Cities.FirstOrDefault(i => i.Id_city == singleChild.Id_city).Id_province,
                             cityId = singleChild.Id_city,
                             moneyIncludes = moneyIncludesList
