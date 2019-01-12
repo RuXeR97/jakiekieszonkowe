@@ -103,7 +103,7 @@ namespace jakiekieszonkowe_api.Controllers
                     average = sumOfSquaresOfDifferences = sd = 0;
                     if(children.Count > 0)
                     {
-                        average = (double)children.Average(i => i.Current_amount_of_money);
+                        average = (double)children.Average(i => (i.Current_amount_of_money/i.Payout_period.Days)*30);
 
                         sumOfSquaresOfDifferences = children.
                             Select(i => ((double)i.Current_amount_of_money - average) * ((double)i.Current_amount_of_money - average)).Sum();
@@ -226,7 +226,7 @@ namespace jakiekieszonkowe_api.Controllers
                         average = sumOfSquaresOfDifferences = sd = 0;
                         if (children.Count > 0)
                         {
-                            average = (double)children.Average(i => i.Current_amount_of_money);
+                            average = (double)children.Average(i => (i.Current_amount_of_money / i.Payout_period.Days) * 30);
 
                             sumOfSquaresOfDifferences = children.
                                 Select(i => ((double)i.Current_amount_of_money - average) * ((double)i.Current_amount_of_money - average)).Sum();
@@ -350,7 +350,7 @@ namespace jakiekieszonkowe_api.Controllers
                         average = sumOfSquaresOfDifferences = sd = 0;
                         if (children.Count > 0)
                         {
-                            average = (double)children.Average(i => i.Current_amount_of_money);
+                            average = (double)children.Average(i => (i.Current_amount_of_money / i.Payout_period.Days) * 30);
 
                             sumOfSquaresOfDifferences = children.
                                 Select(i => ((double)i.Current_amount_of_money - average) * ((double)i.Current_amount_of_money - average)).Sum();
