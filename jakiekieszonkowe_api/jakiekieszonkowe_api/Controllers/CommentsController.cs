@@ -24,11 +24,17 @@ namespace jakiekieszonkowe_api.Controllers
             var resultList = new List<object>();
             try
             {
-                if (!Security.UserTokens.Any(i => i.Value == token))
-                    throw new Exception("Identyfikacja użytkownika nie powiodła się.");
-
+                int userId;
+                if (Security.UserTokens.Any(i => i.Value == token))
+                {
+                    userId = Security.UserTokens.FirstOrDefault(i => i.Value == token).Key;
+                }
+                else
+                {
+                    throw new Exception("Identyfikacja użytkownika nie powiodła się");
+                }
                 wasSuccess = true;
-                resultList = GetCommentsDetailed(cityId, provinceId).ToList();
+                resultList = GetCommentsDetailed(cityId, provinceId, userId).ToList();
             }
             catch (Exception ex)
             {
@@ -45,7 +51,7 @@ namespace jakiekieszonkowe_api.Controllers
 
             return finalResult;
         }
-        private IEnumerable<object> GetCommentsDetailed(int cityId, int provinceId)
+        private IEnumerable<object> GetCommentsDetailed(int cityId, int provinceId, int userId)
         {
             IEnumerable<Comment> cityComments;
             var finalResultComments = new List<object>();
@@ -60,7 +66,7 @@ namespace jakiekieszonkowe_api.Controllers
 
                 foreach (var item in cityComments)
                 {
-                    bool isLiked = db.Likes.Any(i => i.Id_user == item.Id_user && i.Id_comment == item.Id_comment);
+                    bool isLiked = db.Likes.Any(i => userId == i.Id_user && i.Id_comment == item.Id_comment);
                     finalResultComments.Add(new
                     {
                         id = item.Id_comment,
@@ -95,7 +101,7 @@ namespace jakiekieszonkowe_api.Controllers
                 }
                 wasSuccess = true;
                 AddCommentDetailed(cityId, provinceId, content, userId);
-                resultList = GetCommentsDetailed(cityId, provinceId).ToList();
+                resultList = GetCommentsDetailed(cityId, provinceId, userId).ToList();
             }
             catch (Exception ex)
             {
