@@ -156,7 +156,7 @@ namespace jakiekieszonkowe_api.Controllers
                             {
                                 email = user.Email.Trim(),
                                 accountActivationDate = user.Account_registration_date.ToString("yyyy-MM-dd"),
-                                accountLastLogInDate =  user.Last_login_date?.ToString("yyyy-MM-dd:HH-mm"),
+                                accountLastLogInDate =  user.Last_login_date?.ToString("yyyy-MM-dd;HH-mm"),
                                 provinceId = user.City.Id_province,
                                 cityId = user.Id_city,
                                 province = user.City.Province.Name.Trim(),
@@ -626,7 +626,7 @@ namespace jakiekieszonkowe_api.Controllers
                         message = String.Empty,
                         email = user.Email.Trim(),
                         accountActivationDate = user.Account_registration_date.ToString("yyyy-MM-dd"),
-                        accountLastLogInDate = user.Last_login_date?.ToString("yyyy-MM-dd:HH-mm"),
+                        accountLastLogInDate = user.Last_login_date?.ToString("yyyy-MM-dd;HH-mm"),
                         provinceId = user.City.Id_province,
                         cityId = user.Id_city,
                         province = user.City.Province.Name.Trim(),
