@@ -93,7 +93,7 @@ namespace jakiekieszonkowe_api.Controllers
                                 var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                 var result = moneyIncludesArray.Concat(idPocketMoney);
                                 var finalResultOfSets = result.Union(moneyIncludesArray);
-                                if (finalResultOfSets.Count() != amountOfElements)
+                                if (!moneyIncludesArray.SequenceEqual(child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option)))
                                     children.Remove(child);
                             }
                         }
@@ -216,7 +216,7 @@ namespace jakiekieszonkowe_api.Controllers
                                     var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
-                                    if (finalResultOfSets.Count() != amountOfElements)
+                                    if (!moneyIncludesArray.SequenceEqual(child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option)))
                                         children.Remove(child);
                                 }
                             }
@@ -340,7 +340,7 @@ namespace jakiekieszonkowe_api.Controllers
                                     var idPocketMoney = child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option).ToList();
                                     var result = moneyIncludesArray.Concat(idPocketMoney);
                                     var finalResultOfSets = result.Union(moneyIncludesArray);
-                                    if (finalResultOfSets.Count() != amountOfElements)
+                                    if (!moneyIncludesArray.SequenceEqual(child.Child_pocket_money_option.Select(i => i.Id_pocket_money_option)))
                                         children.Remove(child);
                                 }
                             }
